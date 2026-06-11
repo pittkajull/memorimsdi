@@ -7,7 +7,7 @@ const memories = [
   {
     year: "2024",
     title: "Tantangan & Pertumbuhan",
-    description: "Melewati berbagai rintangan, belajar dari kegagahan, dan menemukan kekuatan dalam kebersamaan.",
+    description: "Melewati berbagai rintangan, belajar dari kegagalan, dan menemukan kekuatan dalam kebersamaan.",
   },
   {
     year: "2025",
@@ -18,57 +18,51 @@ const memories = [
 
 export default function Timeline() {
   return (
-    <section className="relative bg-gradient-to-b from-black via-zinc-900 to-black py-24 px-6 overflow-hidden">
-      {/* Film strip decoration - top */}
-      <div className="absolute top-0 left-0 w-full h-12 bg-[repeating-linear-gradient(90deg,transparent,transparent_20px,rgba(255,255,255,0.08)_20px,rgba(255,255,255,0.08)_24px)] opacity-60"></div>
-
-      {/* Film strip decoration - bottom */}
-      <div className="absolute bottom-0 left-0 w-full h-12 bg-[repeating-linear-gradient(90deg,transparent,transparent_20px,rgba(255,255,255,0.08)_20px,rgba(255,255,255,0.08)_24px)] opacity-60"></div>
-
-      <div className="max-w-6xl mx-auto">
-        {/* Section Title */}
-        <div className="text-center mb-20">
-          <p className="text-amber-500/80 tracking-[0.3em] uppercase text-sm font-medium mb-4">
-            A K A N T E C I M I E N T O S
-          </p>
-          <h2 className="text-4xl md:text-5xl font-black text-white tracking-wider uppercase">
+    <section className="relative bg-black py-32 px-6">
+      <div className="max-w-5xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-24">
+          <span className="text-white/30 text-xs tracking-[0.4em] uppercase block mb-4">
+            Our Journey
+          </span>
+          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight">
             Memori Kami
           </h2>
-          <div className="mt-6 w-32 h-0.5 bg-amber-500/60 mx-auto"></div>
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <div className="w-12 h-px bg-white/20"></div>
+            <div className="w-1.5 h-1.5 bg-white/40 rotate-45"></div>
+            <div className="w-12 h-px bg-white/20"></div>
+          </div>
         </div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Center line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-amber-500/30 transform -translate-x-1/2"></div>
-
+        {/* Timeline Items */}
+        <div className="space-y-0">
           {memories.map((memory, index) => (
-            <div
-              key={index}
-              className={`relative flex items-center mb-20 last:mb-0 ${
-                index % 2 === 0 ? "flex-row" : "flex-row-reverse"
-              }`}
-            >
-              {/* Content */}
-              <div className={`w-5/12 ${index % 2 === 0 ? "pr-12 text-right" : "pl-12 text-left"}`}>
-                <span className="text-5xl md:text-6xl font-black text-amber-500/40 tracking-wider">
+            <div key={index} className="relative flex items-start gap-8 md:gap-16 group">
+              {/* Left: Year */}
+              <div className="flex-shrink-0 w-24 md:w-32 text-right pt-1">
+                <span className="text-3xl md:text-5xl font-black text-white/10 group-hover:text-white/30 transition-colors duration-700">
                   {memory.year}
                 </span>
-                <h3 className="text-xl md:text-2xl font-bold text-white mt-2 mb-3 tracking-wide">
+              </div>
+
+              {/* Center: Line & Dot */}
+              <div className="flex-shrink-0 flex flex-col items-center">
+                <div className="w-3 h-3 rounded-full bg-white/20 group-hover:bg-white/60 transition-all duration-500 ring-4 ring-black"></div>
+                {index < memories.length - 1 && (
+                  <div className="w-px h-32 bg-gradient-to-b from-white/20 to-transparent"></div>
+                )}
+              </div>
+
+              {/* Right: Content */}
+              <div className="flex-1 pb-20">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 tracking-wide">
                   {memory.title}
                 </h3>
-                <p className="text-white/60 leading-relaxed text-sm md:text-base">
+                <p className="text-white/40 leading-relaxed text-sm md:text-base max-w-lg">
                   {memory.description}
                 </p>
               </div>
-
-              {/* Center dot */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
-                <div className="w-5 h-5 rounded-full bg-amber-500 border-4 border-black shadow-lg shadow-amber-500/30"></div>
-              </div>
-
-              {/* Spacer for the other side */}
-              <div className="w-5/12"></div>
             </div>
           ))}
         </div>
