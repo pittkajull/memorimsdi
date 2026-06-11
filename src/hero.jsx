@@ -1,12 +1,9 @@
-import heroImage from "./images/potostudio1.jpg";
-import logo from "./images/logomsdi.svg";
-
 export default function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* Background image */}
       <img
-        src={heroImage}
+        src="/images/potostudio1.jpg"
         alt="Memori MSDI"
         className="absolute inset-0 h-full w-full object-cover object-top"
       />
@@ -16,7 +13,7 @@ export default function Hero() {
 
       {/* Logo */}
       <div className="absolute top-4 left-4 z-20">
-        <img src={logo} alt="Logo MSDI" className="h-10 w-10" />
+        <img src="/images/logomsdi.svg" alt="Logo MSDI" className="h-10 w-10" />
       </div>
 
       {/* Text */}
