@@ -56,7 +56,7 @@ export default function Hero() {
     <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-black">
       {/* Background image */}
       <img
-        src="/images/potostudio2.JPG"
+        src="/images/potostudio/potostudio2.JPG"
         alt="Memori MSDI"
         className="absolute inset-0 h-full w-full object-cover object-top"
       />
