@@ -1,12 +1,12 @@
 const scatteredPhotos = [
-  { src: "/images/IMG_0087.JPG", alt: "Memory", rotate: -15, x: "5%", y: "8%", width: "180px" },
-  { src: "/images/IMG_0088.JPG", alt: "Memory", rotate: 8, x: "65%", y: "5%", width: "170px" },
-  { src: "/images/IMG_0089.JPG", alt: "Memory", rotate: -5, x: "75%", y: "25%", width: "160px" },
-  { src: "/images/IMG_0090.JPG", alt: "Memory", rotate: 12, x: "2%", y: "35%", width: "175px" },
-  { src: "/images/IMG_0091.JPG", alt: "Memory", rotate: -8, x: "70%", y: "55%", width: "165px" },
-  { src: "/images/IMG_0092.JPG", alt: "Memory", rotate: 5, x: "8%", y: "60%", width: "155px" },
-  { src: "/images/IMG_0094.JPG", alt: "Memory", rotate: -12, x: "55%", y: "72%", width: "170px" },
-  { src: "/images/IMG_0095.JPG", alt: "Memory", rotate: 10, x: "20%", y: "78%", width: "160px" },
+  { src: "/images/IMG_0087.JPG", alt: "Memory", rotate: -15, x: "2%", y: "5%", width: "260px" },
+  { src: "/images/IMG_0088.JPG", alt: "Memory", rotate: 8, x: "68%", y: "2%", width: "240px" },
+  { src: "/images/IMG_0089.JPG", alt: "Memory", rotate: -5, x: "78%", y: "28%", width: "220px" },
+  { src: "/images/IMG_0090.JPG", alt: "Memory", rotate: 12, x: "0%", y: "38%", width: "250px" },
+  { src: "/images/IMG_0091.JPG", alt: "Memory", rotate: -8, x: "72%", y: "58%", width: "230px" },
+  { src: "/images/IMG_0092.JPG", alt: "Memory", rotate: 5, x: "3%", y: "65%", width: "220px" },
+  { src: "/images/IMG_0094.JPG", alt: "Memory", rotate: -12, x: "58%", y: "75%", width: "240px" },
+  { src: "/images/IMG_0095.JPG", alt: "Memory", rotate: 10, x: "15%", y: "82%", width: "230px" },
 ];
 
 export default function Ending() {
@@ -107,8 +107,8 @@ export default function Ending() {
         </div>
 
         {/* Camera */}
-        <div className="absolute bottom-8 right-8 md:right-16 z-20 opacity-80">
-          <div className="w-48 h-48 md:w-64 md:h-64 relative">
+        <div className="absolute bottom-12 right-8 md:bottom-16 md:right-12 z-20 opacity-90">
+          <div className="w-56 h-56 md:w-72 md:h-72 relative">
             {/* Simplified camera illustration */}
             <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg shadow-2xl">
               {/* Lens */}
@@ -128,19 +128,23 @@ export default function Ending() {
         </div>
 
         {/* END Typography */}
-        <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-40">
-          <div className="flex items-end gap-1">
-            <span className="text-white/60 text-sm md:text-base font-bold tracking-wider mb-4">HAS</span>
+        <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-40">
+          <div className="flex items-end gap-2">
+            <span className="text-white text-lg md:text-2xl font-bold tracking-wider mb-6 drop-shadow-lg">HAS</span>
             <div className="relative">
-              <h1 className="text-[80px] md:text-[140px] font-black text-white/90 leading-none tracking-tighter">
+              <h1
+                className="text-[100px] md:text-[180px] font-black leading-none tracking-tighter"
+                style={{
+                  color: "white",
+                  textShadow: "4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 6px 20px rgba(0,0,0,0.8)",
+                }}
+              >
                 END
               </h1>
-              {/* Grunge texture on text */}
-              <div className="absolute inset-0 opacity-30 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')] mix-blend-overlay"></div>
             </div>
-            <span className="text-white/60 text-sm md:text-base font-bold tracking-wider mb-2">ED</span>
+            <span className="text-white text-lg md:text-2xl font-bold tracking-wider mb-4 drop-shadow-lg">ED</span>
           </div>
-          <p className="text-white/50 text-xs md:text-sm tracking-[0.3em] mt-2 uppercase">
+          <p className="text-white text-xs md:text-sm tracking-[0.4em] mt-3 uppercase font-semibold drop-shadow-lg">
             KKN 12 Sungai Lekop Story
           </p>
         </div>
