@@ -1,3 +1,6 @@
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+
 const scatteredPhotos = [
   { src: "/images/IMG_0087.JPG", alt: "Memory", rotate: -15, x: "2%", y: "5%", width: "260px" },
   { src: "/images/IMG_0088.JPG", alt: "Memory", rotate: 8, x: "68%", y: "2%", width: "240px" },
@@ -10,8 +13,64 @@ const scatteredPhotos = [
 ];
 
 export default function Ending() {
+  const sectionRef = useRef(null);
+  const paperRef = useRef(null);
+  const endTextRef = useRef(null);
+  const photoRefs = useRef([]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate scattered photos
+      photoRefs.current.forEach((photo, index) => {
+        if (photo) {
+          gsap.from(photo, {
+            scale: 0,
+            opacity: 0,
+            rotation: scatteredPhotos[index].rotate + (Math.random() * 30 - 15),
+            duration: 0.8,
+            ease: "back.out(1.4)",
+            delay: 0.1 * index,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 70%",
+            },
+          });
+        }
+      });
+
+      // Animate paper note
+      gsap.from(paperRef.current, {
+        scale: 0.8,
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.5,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 60%",
+        },
+      });
+
+      // Animate END text
+      gsap.from(endTextRef.current, {
+        x: -100,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power4.out",
+        delay: 0.8,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 50%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative bg-gradient-to-b from-amber-900/40 via-amber-800/30 to-black py-0 overflow-hidden min-h-screen">
+    <section ref={sectionRef} className="relative bg-gradient-to-b from-amber-900/40 via-amber-800/30 to-black py-0 overflow-hidden min-h-screen">
       {/* Wood texture background */}
       <div
         className="absolute inset-0 opacity-30"
@@ -29,17 +88,20 @@ export default function Ending() {
         {scatteredPhotos.map((photo, index) => (
           <div
             key={index}
+            ref={(el) => (photoRefs.current[index] = el)}
             className="absolute hidden md:block"
             style={{
               left: photo.x,
               top: photo.y,
-              transform: `rotate(${photo.rotate}deg)`,
               width: photo.width,
               zIndex: 10 + index,
             }}
           >
             {/* Polaroid frame */}
-            <div className="bg-white p-2 pb-10 shadow-xl hover:z-50 hover:scale-105 transition-transform duration-300 cursor-pointer">
+            <div
+              className="bg-white p-2 pb-10 shadow-xl hover:z-50 hover:scale-105 transition-transform duration-300 cursor-pointer"
+              style={{ transform: `rotate(${photo.rotate}deg)` }}
+            >
               <img
                 src={photo.src}
                 alt={photo.alt}
@@ -69,7 +131,7 @@ export default function Ending() {
         </div>
 
         {/* Center Paper Note */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-[340px] md:w-[420px]">
+        <div ref={paperRef} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-[340px] md:w-[420px]">
           {/* Paper */}
           <div className="relative bg-gradient-to-b from-amber-50 to-white p-8 md:p-10 shadow-2xl rotate-1">
             {/* Paper texture lines */}
@@ -128,7 +190,7 @@ export default function Ending() {
         </div>
 
         {/* END Typography */}
-        <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-40">
+        <div ref={endTextRef} className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-40">
           <div className="flex items-end gap-2">
             <span className="text-white text-lg md:text-2xl font-bold tracking-wider mb-6 drop-shadow-lg">HAS</span>
             <div className="relative">
