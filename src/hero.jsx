@@ -83,12 +83,10 @@ export default function Hero() {
             ref={textRef}
             className="mt-8 text-sm md:text-base leading-relaxed text-white/95 drop-shadow-lg max-w-3xl mx-auto"
           >
-            Banyak yang mengenal MSDI sebagai tempat untuk berproses. Namun bagi kami, MSDI lebih dari itu—ia adalah rumah, tempat kami selalu menemukan jalan untuk pulang.
-
-Di tengah keras dan dinginnya dunia luar, kami menemukan kehangatan yang tak tergantikan. Kehangatan yang lahir dari kebersamaan, dari tangan-tangan yang saling menguatkan, dari tawa yang dibagi, dan dari perjuangan yang dijalani bersama.
-Terima kasih telah menjadi bagian dari cerita ini. Terima kasih telah hadir dan menjadikan setiap perjalanan terasa lebih bermakna. Kalian bukan sekadar teman seperjalanan, melainkan keluarga yang akan selalu memiliki tempat di hati kami.
-
-Bon Appétit. Mari menikmati setiap potongan kenangan yang tersisa, menyimpannya baik-baik dalam hati, dan membawanya sebagai bekal menuju perjalanan berikutnya.
+            Banyak yang mengenal MSDI sebagai tempat untuk berproses. Namun bagi kami, MSDI lebih dari itu ia adalah rumah, tempat kami selalu menemukan jalan untuk pulang.
+            Di tengah keras dan dinginnya dunia luar, kami menemukan kehangatan yang tak tergantikan. Kehangatan yang lahir dari kebersamaan, dari tangan-tangan yang saling menguatkan, dari tawa yang dibagi, dan dari perjuangan yang dijalani bersama.
+            Terima kasih telah menjadi bagian dari cerita ini. Terima kasih telah hadir dan menjadikan setiap perjalanan terasa lebih bermakna. Kalian bukan sekadar teman seperjalanan, melainkan keluarga yang akan selalu memiliki tempat di hati kami.
+            Bon Appétit. Mari menikmati setiap potongan kenangan yang tersisa, menyimpannya baik-baik dalam hati, dan membawanya sebagai bekal menuju perjalanan berikutnya.
 
           </p>
         </div>
