@@ -207,7 +207,8 @@ export default function Ending() {
             <span className="text-white text-lg md:text-2xl font-bold tracking-wider mb-4 drop-shadow-lg"></span>
           </div>
           <p className="text-white text-xs md:text-sm tracking-[0.4em] mt-3 uppercase font-semibold drop-shadow-lg">
-            memori msdi
+            bersama msdi ciptakan sinergi, kolaborasikan aksi.
+            <br>memori msdi.</br>
           </p>
         </div>
       </div>
