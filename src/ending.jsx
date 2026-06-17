@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const scatteredPhotos = [
   { src: "/images/11c638d5-0910-44bc-bd98-c583372115d3.jpg", alt: "Memory", rotate: -15, x: "2%", y: "5%", width: "260px" },
@@ -18,56 +19,52 @@ export default function Ending() {
   const endTextRef = useRef(null);
   const photoRefs = useRef([]);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate scattered photos
-      photoRefs.current.forEach((photo, index) => {
-        if (photo) {
-          gsap.from(photo, {
-            scale: 0,
-            opacity: 0,
-            rotation: scatteredPhotos[index].rotate + (Math.random() * 30 - 15),
-            duration: 0.8,
-            ease: "back.out(1.4)",
-            delay: 0.1 * index,
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 70%",
-            },
-          });
-        }
-      });
+  useGSAP(() => {
+    // Animate scattered photos
+    photoRefs.current.forEach((photo, index) => {
+      if (photo) {
+        gsap.from(photo, {
+          scale: 0,
+          opacity: 0,
+          rotation: scatteredPhotos[index].rotate + (Math.random() * 30 - 15),
+          duration: 0.8,
+          ease: "back.out(1.4)",
+          delay: 0.1 * index,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+          },
+        });
+      }
+    });
 
-      // Animate paper note
-      gsap.from(paperRef.current, {
-        scale: 0.8,
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: "power3.out",
-        delay: 0.5,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 60%",
-        },
-      });
+    // Animate paper note
+    gsap.from(paperRef.current, {
+      scale: 0.8,
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: "power3.out",
+      delay: 0.5,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 60%",
+      },
+    });
 
-      // Animate END text
-      gsap.from(endTextRef.current, {
-        x: -100,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power4.out",
-        delay: 0.8,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 50%",
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    // Animate END text
+    gsap.from(endTextRef.current, {
+      x: -100,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power4.out",
+      delay: 0.8,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 50%",
+      },
+    });
+  }, { scope: sectionRef });
 
   return (
     <section ref={sectionRef} className="relative bg-gradient-to-b from-amber-900/40 via-amber-800/30 to-black py-0 overflow-hidden min-h-screen">

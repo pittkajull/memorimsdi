@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const photos = [
   "/images/fotoenjoy/01d0a3cd-ffcb-4bdd-8515-263beed9439d.JPG",
@@ -70,42 +71,36 @@ export default function Gallery() {
   const titleRef = useRef(null);
   const gridRef = useRef(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
+  useGSAP(() => {
+    gsap.from(titleRef.current, {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+      },
+    });
 
-      gsap.from(gridRef.current.children, {
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.05,
-        ease: "back.out(1.4)",
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: "top 85%",
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    gsap.from(gridRef.current.children, {
+      scale: 0.85,
+      opacity: 0,
+      duration: 0.5,
+      stagger: 0.03,
+      ease: "back.out(1.2)",
+      scrollTrigger: {
+        trigger: gridRef.current,
+        start: "top 90%",
+      },
+    });
+  }, { scope: sectionRef });
 
   return (
     <section ref={sectionRef} className="relative bg-black py-24 px-4 md:px-8 overflow-hidden">
-      {/* Gradient bg */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/50 to-black"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Title */}
         <div ref={titleRef} className="text-center mb-16">
           <p className="font-['Caveat',_cursive] text-2xl md:text-3xl text-amber-500/60 mb-4">
             #KitaSelaluIngat
@@ -118,20 +113,15 @@ export default function Gallery() {
           </p>
         </div>
 
-        {/* Photo Grid - Masonry style */}
         <div ref={gridRef} className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
           {photos.map((src, index) => (
-            <div
-              key={index}
-              className="break-inside-avoid group relative overflow-hidden rounded-sm cursor-pointer"
-            >
+            <div key={index} className="break-inside-avoid group relative overflow-hidden rounded-sm cursor-pointer">
               <img
                 src={src}
                 alt={`Memory ${index + 1}`}
                 className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-110"
                 loading="lazy"
               />
-              {/* Hover overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="absolute bottom-3 left-3 right-3">
                   <p className="font-['Caveat',_cursive] text-white text-lg">
@@ -143,7 +133,6 @@ export default function Gallery() {
           ))}
         </div>
 
-        {/* Bottom text */}
         <div className="mt-16 text-center">
           <p className="font-['Caveat',_cursive] text-xl md:text-2xl text-white/30">
             &quot;Tawa yang pernah kita bagi, akan selalu terasa hangat di hati&quot;
