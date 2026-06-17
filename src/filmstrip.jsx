@@ -68,7 +68,7 @@ function FilmStripRow({ images, direction = "left" }) {
                 <img
                   src={src}
                   alt={`Memory ${i + 1}`}
-                  className="w-full h-full object-cover grayscale contrast-110 brightness-90"
+                  className="w-full h-full object-cover"
                   loading="lazy"
                 />
               </div>

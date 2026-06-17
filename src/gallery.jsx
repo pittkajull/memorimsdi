@@ -91,7 +91,7 @@ export default function Gallery() {
               <img
                 src={src}
                 alt={`Memory ${index + 1}`}
-                className="w-full h-auto object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-110"
                 loading="lazy"
               />
               {/* Hover overlay */}
