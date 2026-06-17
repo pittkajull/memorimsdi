@@ -64,9 +64,11 @@ export default function Gallery() {
 
   return (
     <section ref={sectionRef} className="relative bg-black py-24 px-4 md:px-8 overflow-hidden">
+      {/* Gradient bg */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/50 to-black"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Title */}
         <div ref={titleRef} className="text-center mb-16">
           <p className="font-['Caveat',_cursive] text-2xl md:text-3xl text-amber-500/60 mb-4">
             #KitaSelaluIngat
@@ -79,15 +81,20 @@ export default function Gallery() {
           </p>
         </div>
 
+        {/* Photo Grid - Masonry style */}
         <div ref={gridRef} className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
           {photos.map((src, index) => (
-            <div key={index} className="break-inside-avoid group relative overflow-hidden rounded-sm cursor-pointer">
+            <div
+              key={index}
+              className="break-inside-avoid group relative overflow-hidden rounded-sm cursor-pointer"
+            >
               <img
                 src={src}
                 alt={`Memory ${index + 1}`}
                 className="w-full h-auto object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
                 loading="lazy"
               />
+              {/* Hover overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="absolute bottom-3 left-3 right-3">
                   <p className="font-['Caveat',_cursive] text-white text-lg">
@@ -99,6 +106,7 @@ export default function Gallery() {
           ))}
         </div>
 
+        {/* Bottom text */}
         <div className="mt-16 text-center">
           <p className="font-['Caveat',_cursive] text-xl md:text-2xl text-white/30">
             &quot;Tawa yang pernah kita bagi, akan selalu terasa hangat di hati&quot;
