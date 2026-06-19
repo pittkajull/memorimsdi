@@ -122,13 +122,7 @@ export default function Gallery() {
                 className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="absolute bottom-3 left-3 right-3">
-                  <p className="font-['Caveat',_cursive] text-white text-lg">
-                    Kenangan indah...
-                  </p>
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
           ))}
         </div>
