@@ -49,9 +49,9 @@ export default function Hero() {
         <img src="/images/logomsdi.svg" alt="Logo MSDI" className="h-10 w-10" />
       </div>
 
-      <div className="relative z-10 flex h-full items-center justify-center px-6">
+      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-24">
         <div className="max-w-5xl text-center text-white">
-          <h1 ref={titleRef} className="text-6xl md:text-8xl font-black tracking-wider drop-shadow-2xl uppercase">
+          <h1 ref={titleRef} className="text-6xl md:text-8xl font-black tracking-wider drop-shadow-2xl uppercase ">
             MEMORI MSDI
           </h1>
         </div>
