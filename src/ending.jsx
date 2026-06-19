@@ -165,27 +165,6 @@ export default function Ending() {
           <div className="absolute -bottom-2 left-2 right-2 h-8 bg-black/20 blur-xl rounded-full"></div>
         </div>
 
-        {/* Camera */}
-        <div className="absolute bottom-12 right-8 md:bottom-16 md:right-12 z-20 opacity-90">
-          <div className="w-56 h-56 md:w-72 md:h-72 relative">
-            {/* Simplified camera illustration */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg shadow-2xl">
-              {/* Lens */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-gray-700 via-gray-800 to-black border-4 border-gray-600 shadow-inner">
-                <div className="absolute inset-2 rounded-full bg-gradient-to-br from-blue-900/30 via-transparent to-purple-900/20 border border-gray-600"></div>
-                <div className="absolute inset-4 rounded-full bg-black/40 border border-gray-700"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gradient-to-br from-blue-800/40 to-purple-900/30"></div>
-              </div>
-              {/* Viewfinder */}
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-gray-700 rounded-t-sm"></div>
-              {/* Flash */}
-              <div className="absolute top-3 right-4 w-6 h-6 bg-gradient-to-br from-gray-600 to-gray-700 rounded-sm"></div>
-              {/* Grip */}
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-700 to-transparent rounded-r-lg"></div>
-            </div>
-          </div>
-        </div>
-
         {/* END Typography */}
         <div ref={endTextRef} className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-40">
           <div className="flex items-end gap-2">
