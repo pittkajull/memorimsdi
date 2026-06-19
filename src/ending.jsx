@@ -3,14 +3,14 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
 const scatteredPhotos = [
-  { src: "/images/11c638d5-0910-44bc-bd98-c583372115d3.jpg", alt: "Memory", rotate: -15, x: "2%", y: "5%", width: "260px" },
-  { src: "/images/2fe2145c-df06-40ea-a698-bc3d2049b417.jpg", alt: "Memory", rotate: 8, x: "68%", y: "2%", width: "240px" },
-  { src: "/images/62e69552-a445-435a-8326-144f35f4a8a1.JPG", alt: "Memory", rotate: -5, x: "78%", y: "28%", width: "220px" },
-  { src: "/images/78682475-68db-4772-af7b-c12c9437d4b3.JPG", alt: "Memory", rotate: 12, x: "0%", y: "38%", width: "250px" },
-  { src: "/images/8b073779-edf9-480d-8143-e90e24c44e66.JPG", alt: "Memory", rotate: -8, x: "72%", y: "58%", width: "230px" },
-  { src: "/images/9458c31d-61c8-4054-b0c1-551b6e766fc8.JPG", alt: "Memory", rotate: 5, x: "3%", y: "65%", width: "220px" },
-  { src: "/images/99420135-f1dc-4be3-bfa0-f072aebcef56.JPG", alt: "Memory", rotate: -12, x: "58%", y: "75%", width: "240px" },
-  { src: "/images/13dd1a41-5183-4e2e-b4e5-aeda1dfa590c.JPG", alt: "Memory", rotate: 10, x: "15%", y: "82%", width: "230px" },
+  { src: "/images/fotoenjoy/11c638d5-0910-44bc-bd98-c583372115d3.jpg", alt: "Memory", rotate: -15, x: "2%", y: "5%", width: "260px" },
+  { src: "/images/fotoenjoy/2fe2145c-df06-40ea-a698-bc3d2049b417.jpg", alt: "Memory", rotate: 8, x: "68%", y: "2%", width: "240px" },
+  { src: "/images/fotoenjoy/62e69552-a445-435a-8326-144f35f4a8a1.JPG", alt: "Memory", rotate: -5, x: "78%", y: "28%", width: "220px" },
+  { src: "/images/fotoenjoy/78682475-68db-4772-af7b-c12c9437d4b3.JPG", alt: "Memory", rotate: 12, x: "0%", y: "38%", width: "250px" },
+  { src: "/images/fotoenjoy/8b073779-edf9-480d-8143-e90e24c44e66.JPG", alt: "Memory", rotate: -8, x: "72%", y: "58%", width: "230px" },
+  { src: "/images/fotoenjoy/9458c31d-61c8-4054-b0c1-551b6e766fc8.JPG", alt: "Memory", rotate: 5, x: "3%", y: "65%", width: "220px" },
+  { src: "/images/fotoenjoy/99420135-f1dc-4be3-bfa0-f072aebcef56.JPG", alt: "Memory", rotate: -12, x: "58%", y: "75%", width: "240px" },
+  { src: "/images/fotoenjoy/13dd1a41-5183-4e2e-b4e5-aeda1dfa590c.JPG", alt: "Memory", rotate: 10, x: "15%", y: "82%", width: "230px" },
 ];
 
 export default function Ending() {
