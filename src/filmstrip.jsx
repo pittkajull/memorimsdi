@@ -80,7 +80,7 @@ function FilmStripRow({ images, direction = "left" }) {
           <div
             className="flex gap-2 w-max"
             style={{
-              animation: `${isLeft ? "scrollLeft" : "scrollRight"} 60s linear infinite`,
+              animation: `${isLeft ? "scrollLeft" : "scrollRight"} 90s linear infinite`,
             }}
           >
             {/* Repeat 4 times for seamless loop */}
