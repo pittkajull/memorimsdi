@@ -49,7 +49,7 @@ export default function Hero() {
         <img src="/images/logomsdi.svg" alt="Logo MSDI" className="h-10 w-10" />
       </div>
 
-      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-24">
+      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-15">
         <div className="max-w-5xl text-center text-white">
           <h1 ref={titleRef} className="text-6xl md:text-8xl font-black tracking-wider drop-shadow-2xl uppercase ">
             MEMORI MSDI
@@ -64,7 +64,7 @@ export default function Hero() {
       </div>
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 w-full px-6">
-        <p ref={textRef} className="text-sm md:text-base leading-relaxed text-white/95 drop-shadow-lg max-w-3xl mx-auto text-center">
+        <p ref={textRef} className="text-xs md:text-sm leading-relaxed text-white/95 drop-shadow-lg max-w-3xl mx-auto text-center">
           Banyak yang mengenal MSDI sebagai tempat untuk berproses. Namun bagi kami, MSDI lebih dari itu ia adalah rumah, tempat kami selalu menemukan jalan untuk pulang.
           Di tengah keras dan dinginnya dunia luar, kami menemukan kehangatan yang tak tergantikan. Kehangatan yang lahir dari kebersamaan, dari tangan-tangan yang saling menguatkan, dari tawa yang dibagi, dan dari perjuangan yang dijalani bersama.
           Terima kasih telah menjadi bagian dari cerita ini. Terima kasih telah hadir dan menjadikan setiap perjalanan terasa lebih bermakna. Kalian bukan sekadar teman seperjalanan, melainkan keluarga yang akan selalu memiliki tempat di hati kami.
