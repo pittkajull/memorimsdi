@@ -43,7 +43,7 @@ export default function Hero() {
         alt="Memori MSDI"
         className="absolute inset-0 h-full w-full object-cover object-top"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/90"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-transparent"></div>
 
       <div className="absolute top-6 left-6 z-20">
         <img src="/images/logomsdi.svg" alt="Logo MSDI" className="h-10 w-10" />
@@ -65,9 +65,9 @@ export default function Hero() {
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 w-full px-6">
         <p ref={textRef} className="text-xs md:text-sm leading-relaxed text-white/95 drop-shadow-lg max-w-3xl mx-auto text-center">
-          MSDI bukan hanya tempat untuk berproses, tetapi juga tempat di mana tawa, cerita, dan kebersamaan tumbuh menjadi kenangan yang tak terlupakan. Di tengah keras dan dinginnya dunia luar, kami selalu menemukan kenyamanan dan kehangatan dari orang-orang yang ada di dalamnya.
-          Terima kasih telah menjadi bagian dari perjalanan ini. Terima kasih telah membuat setiap langkah terasa lebih berarti.Kalian bukan sekadar teman seperjalanan, melainkan keluarga yang akan selalu memiliki tempat di hati kami.
-          Bon Appétit. Mari menikmati setiap kenangan yang tersisa, menyimpannya baik-baik, dan membawanya sebagai bekal menuju perjalanan berikutnya.
+          MSDI is more than just a place to grow and learn; it is a place where laughter, stories, and togetherness have blossomed into memories we will always cherish. Amid the harshness and coldness of the outside world, we have always found comfort and warmth in the people within it.
+          Thank you for being part of this journey. Thank you for making every step more meaningful. You are not merely companions along the way, but family who will always hold a special place in our hearts.
+          Bon Appétit. Let us savor every memory we have left, treasure them dearly, and carry them with us as we embark on the next chapter of our journey.
         </p>
       </div>
     </section>
