@@ -65,10 +65,9 @@ export default function Hero() {
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 w-full px-6">
         <p ref={textRef} className="text-xs md:text-sm leading-relaxed text-white/95 drop-shadow-lg max-w-3xl mx-auto text-center">
-          Banyak yang mengenal MSDI sebagai tempat untuk berproses. Namun bagi kami, MSDI lebih dari itu ia adalah rumah, tempat kami selalu menemukan jalan untuk pulang.
-          Di tengah keras dan dinginnya dunia luar, kami menemukan kehangatan yang tak tergantikan. Kehangatan yang lahir dari kebersamaan, dari tangan-tangan yang saling menguatkan, dari tawa yang dibagi, dan dari perjuangan yang dijalani bersama.
-          Terima kasih telah menjadi bagian dari cerita ini. Terima kasih telah hadir dan menjadikan setiap perjalanan terasa lebih bermakna. Kalian bukan sekadar teman seperjalanan, melainkan keluarga yang akan selalu memiliki tempat di hati kami.
-          Bon Appétit. Mari menikmati setiap potongan kenangan yang tersisa, menyimpannya baik-baik dalam hati, dan membawanya sebagai bekal menuju perjalanan berikutnya.
+          MSDI bukan hanya tempat untuk berproses, tetapi juga tempat di mana tawa, cerita, dan kebersamaan tumbuh menjadi kenangan yang tak terlupakan. Di tengah keras dan dinginnya dunia luar, kami selalu menemukan kenyamanan dan kehangatan dari orang-orang yang ada di dalamnya.
+          Terima kasih telah menjadi bagian dari perjalanan ini. Terima kasih telah membuat setiap langkah terasa lebih berarti.Kalian bukan sekadar teman seperjalanan, melainkan keluarga yang akan selalu memiliki tempat di hati kami.
+          Bon Appétit. Mari menikmati setiap kenangan yang tersisa, menyimpannya baik-baik, dan membawanya sebagai bekal menuju perjalanan berikutnya.
         </p>
       </div>
     </section>
