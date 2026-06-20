@@ -11,7 +11,6 @@ const filmStrip1 = [
   "/images/potostudio/IMG_0012.JPG",
   "/images/potostudio/IMG_0014.JPG",
   "/images/potostudio/IMG_0015.JPG",
-  "/images/potostudio/IMG_0016.JPG",
   "/images/potostudio/IMG_0017.JPG",
   "/images/potostudio/IMG_0018.JPG",
   "/images/potostudio/IMG_0019.JPG",
