@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="max-w-5xl mx-auto text-center">
         {/* Quote */}
         <p className="text-lg md:text-xl text-white/40 italic leading-relaxed max-w-2xl mx-auto mb-16">
-          &quot;Nikmatilah setiap sisa kenangan hangat ini di dalam hati kalian.&quot;
+          &quot;Enjoy every remaining warm memory in your hearts.&quot;
         </p>
 
         {/* Logo text */}
@@ -17,7 +17,7 @@ export default function Footer() {
           MEMORI MSDI
         </h3>
         <p className="text-white/20 text-sm tracking-wider mb-12">
-          Tempat Berpulang, Kenangan Abadi
+          A Place of Rest, Eternal Memories
         </p>
 
         {/* Bottom */}

@@ -127,7 +127,7 @@ export default function Filmstrip() {
         {/* Handwritten annotation */}
         <div className="mb-12 ml-6">
           <p className="font-['Caveat',_cursive] text-2xl md:text-4xl text-white/40">
-            Setiap momen tersimpan dalam gulungan film ini...
+            Every moment is captured in this film reel...
           </p>
         </div>
 

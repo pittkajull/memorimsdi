@@ -1,18 +1,18 @@
 const categories = [
   {
     number: "01",
-    title: "Kerjasama",
-    description: "Setiap proyek adalah kesempatan untuk belajar, tumbuh, dan membuktikan bahwa tim yang solid dapat mengatasi tantangan apapun.",
+    title: "Teamwork",
+    description: "Every project is an opportunity to learn, grow, and prove that a solid team can overcome any challenge.",
   },
   {
     number: "02",
-    title: "Keluarga",
-    description: "Di luar jam kerja, kami adalah keluarga. Tawa, cerita, dan kenangan manis yang tak terlupakan.",
+    title: "Family",
+    description: "Outside of work hours, we are family. Laughter, stories, and sweet memories that are unforgettable.",
   },
   {
     number: "03",
-    title: "Prestasi",
-    description: "Pencapaian yang diraih bukan hanya milik individu, tapi bukti dari dedikasi seluruh tim.",
+    title: "Achievements",
+    description: "The achievements attained belong not just to individuals, but proof of the entire team's dedication.",
   },
 ];
 
@@ -31,7 +31,7 @@ export default function Moments() {
             Our Stories
           </span>
           <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight">
-            Kenangan Berharga
+            Precious Memories
           </h2>
           <div className="mt-8 flex items-center justify-center gap-3">
             <div className="w-12 h-px bg-white/20"></div>

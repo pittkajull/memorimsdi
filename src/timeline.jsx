@@ -1,18 +1,18 @@
 const memories = [
   {
     year: "2023",
-    title: "Awal Perjalanan",
-    description: "Ketika pertama kali berkumpul dengan semangat yang sama, memulai langkah kecil menuju mimpi besar.",
+    title: "The Beginning of the Journey",
+    description: "When we first gathered with the same passion, taking small steps toward big dreams.",
   },
   {
     year: "2024",
-    title: "Tantangan & Pertumbuhan",
-    description: "Melewati berbagai rintangan, belajar dari kegagalan, dan menemukan kekuatan dalam kebersamaan.",
+    title: "Challenges & Growth",
+    description: "Overcoming various obstacles, learning from failure, and discovering strength in unity.",
   },
   {
     year: "2025",
-    title: "Pencapaian Luar Biasa",
-    description: "Meraih prestasi yang tak pernah kami bayangkan sebelumnya, membuktikan bahwa kerja keras membuahkan hasil.",
+    title: "Extraordinary Achievements",
+    description: "Achieving accomplishments we never imagined, proving that hard work pays off.",
   },
 ];
 
@@ -26,7 +26,7 @@ export default function Timeline() {
             Our Journey
           </span>
           <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight">
-            Memori Kami
+            Our Memories
           </h2>
           <div className="mt-8 flex items-center justify-center gap-3">
             <div className="w-12 h-px bg-white/20"></div>

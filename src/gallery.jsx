@@ -103,13 +103,13 @@ export default function Gallery() {
       <div className="relative z-10 max-w-7xl mx-auto">
         <div ref={titleRef} className="text-center mb-16">
           <p className="font-['Caveat',_cursive] text-2xl md:text-3xl text-amber-500/60 mb-4">
-            #KitaSelaluIngat
+            #WeAlwaysRemember
           </p>
           <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight">
-            Momen Bahagia
+            Happy Moments
           </h2>
           <p className="mt-4 text-white/30 text-sm md:text-base max-w-xl mx-auto">
-            Setiap foto menyimpan cerita, setiap senyum menyimpan kenangan
+            Every photo holds a story, every smile holds a memory
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export default function Gallery() {
 
         <div className="mt-16 text-center">
           <p className="font-['Caveat',_cursive] text-xl md:text-2xl text-white/30">
-            &quot;Tawa yang pernah kita bagi, akan selalu terasa hangat di hati&quot;
+            &quot;The laughter we once shared will always feel warm in our hearts&quot;
           </p>
         </div>
       </div>

@@ -142,17 +142,17 @@ export default function Ending() {
 
               <div className="font-['Caveat',_cursive] text-base md:text-lg text-gray-800 leading-relaxed space-y-4">
                 <p>
-                  Bukan cuma soal program kerja, tapi perjalanan kecil yang penuh makna.
-                  Pagi yang penuh semangat, siang yang melelahkan, sampai malam yang diisi
-                  cerita dan tawa.
+                  It's not just about the work program, but a small journey full of meaning.
+                  Mornings full of energy, exhausting afternoons, and evenings filled with
+                  stories and laughter.
                 </p>
                 <p className="italic">
                   We came as strangers, but we leave as family.
                 </p>
                 <p>
-                  Terima kasih MSDI, kalian sudah jadi bagian dari cerita
-                  indah yang akan selalu dikenang. MSDI mungkin berakhir, tapi kisah ini
-                  tidak akan pernah selesai.
+                  Thank you MSDI, you have become part of a beautiful story
+                  that will always be remembered. MSDI may end, but this story
+                  will never finish.
                 </p>
               </div>
             </div>
@@ -183,8 +183,8 @@ export default function Ending() {
             <span className="text-white text-lg md:text-2xl font-bold tracking-wider mb-4 drop-shadow-lg"></span>
           </div>
           <p className="text-white text-xs md:text-sm tracking-[0.4em] mt-3 uppercase font-semibold drop-shadow-lg">
-            bersama msdi ciptakan sinergi, kolaborasikan aksi.
-            <br />memori msdi.
+            together with msdi create synergy, collaborate in action.
+            <br />memories of msdi.
           </p>
         </div>
       </div>
