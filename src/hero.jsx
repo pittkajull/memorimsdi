@@ -43,7 +43,7 @@ export default function Hero() {
         alt="Memori MSDI"
         className="absolute inset-0 h-full w-full object-cover object-top"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/90"></div>
 
       <div className="absolute top-6 left-6 z-20">
         <img src="/images/logomsdi.svg" alt="Logo MSDI" className="h-10 w-10" />
