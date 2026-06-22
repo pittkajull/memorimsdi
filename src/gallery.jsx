@@ -72,10 +72,12 @@ export default function Gallery() {
   const gridRef = useRef(null);
 
   useGSAP(() => {
-    gsap.from(titleRef.current, {
-      y: 50,
+    // Title animation
+    gsap.from(titleRef.current.children, {
+      y: 60,
       opacity: 0,
       duration: 1,
+      stagger: 0.2,
       ease: "power3.out",
       scrollTrigger: {
         trigger: sectionRef.current,
@@ -83,11 +85,17 @@ export default function Gallery() {
       },
     });
 
-    gsap.from(gridRef.current.children, {
-      scale: 0.85,
+    // Gallery items with 3D tilt effect
+    const items = gridRef.current.children;
+    gsap.from(items, {
+      scale: 0.8,
       opacity: 0,
-      duration: 0.5,
-      stagger: 0.03,
+      rotateX: 15,
+      duration: 0.6,
+      stagger: {
+        amount: 1.5,
+        from: "random",
+      },
       ease: "back.out(1.2)",
       scrollTrigger: {
         trigger: gridRef.current,
@@ -97,40 +105,76 @@ export default function Gallery() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="relative bg-black py-24 px-4 md:px-8 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/50 to-black"></div>
+    <section ref={sectionRef} className="relative bg-black py-32 px-4 md:px-8 overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/30 to-black"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.03)_0%,transparent_50%)]"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div ref={titleRef} className="text-center mb-16">
+        {/* Section header */}
+        <div ref={titleRef} className="text-center mb-20">
           <p className="font-['Caveat',_cursive] text-2xl md:text-3xl text-amber-500/60 mb-4">
             #WeAlwaysRemember
           </p>
-          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight">
+          <h2 className="text-5xl md:text-7xl font-black text-white tracking-tight mb-6">
             Happy Moments
           </h2>
-          <p className="mt-4 text-white/30 text-sm md:text-base max-w-xl mx-auto">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="w-20 h-px bg-gradient-to-r from-transparent to-white/30"></div>
+            <div className="w-2 h-2 bg-white/40 rotate-45"></div>
+            <div className="w-20 h-px bg-gradient-to-l from-transparent to-white/30"></div>
+          </div>
+          <p className="text-white/40 text-sm md:text-base max-w-xl mx-auto">
             Every photo holds a story, every smile holds a memory
           </p>
         </div>
 
-        <div ref={gridRef} className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
+        {/* Photo grid */}
+        <div ref={gridRef} className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {photos.map((src, index) => (
-            <div key={index} className="break-inside-avoid group relative overflow-hidden rounded-sm cursor-pointer">
-              <img
-                src={src}
-                alt={`Memory ${index + 1}`}
-                className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div
+              key={index}
+              className="break-inside-avoid group relative overflow-hidden rounded-lg cursor-pointer"
+              style={{
+                perspective: "1000px",
+              }}
+            >
+              <div className="relative transform transition-all duration-700 group-hover:rotate-y-3 group-hover:rotate-x-3">
+                <img
+                  src={src}
+                  alt={`Memory ${index + 1}`}
+                  className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <span className="text-white/80 text-sm font-medium">Memory {index + 1}</span>
+                    </div>
+                  </div>
+                </div>
+                {/* Border glow on hover */}
+                <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-lg transition-all duration-500"></div>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="font-['Caveat',_cursive] text-xl md:text-2xl text-white/30">
-            &quot;The laughter we once shared will always feel warm in our hearts&quot;
-          </p>
+        {/* Bottom quote */}
+        <div className="mt-20 text-center">
+          <div className="inline-block relative">
+            <div className="absolute -top-4 -left-6 text-4xl text-white/10">&ldquo;</div>
+            <p className="font-['Caveat',_cursive] text-2xl md:text-3xl text-white/40 px-8">
+              The laughter we once shared will always feel warm in our hearts
+            </p>
+            <div className="absolute -bottom-4 -right-6 text-4xl text-white/10">&rdquo;</div>
+          </div>
         </div>
       </div>
     </section>

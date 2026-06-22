@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -6,26 +6,55 @@ export default function Hero() {
   const heroRef = useRef(null);
   const titleRef = useRef(null);
   const textRef = useRef(null);
+  const logoRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useGSAP(() => {
     const tl = gsap.timeline();
 
+    // Logo animation
+    tl.from(logoRef.current, {
+      scale: 0,
+      rotation: -180,
+      opacity: 0,
+      duration: 1,
+      ease: "back.out(1.7)",
+      delay: 0.5,
+    });
+
+    // Title animation with letter reveal
     tl.from(titleRef.current, {
-      y: 80,
+      y: 100,
       opacity: 0,
       duration: 1.5,
       ease: "power4.out",
-      delay: 0.3,
-    })
-    .from(textRef.current, {
-      y: 40,
+    }, "-=0.5");
+
+    // Add glow pulse to title
+    gsap.to(titleRef.current, {
+      textShadow: "0 0 30px rgba(255,255,255,0.5)",
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+
+    // Text animation
+    tl.from(textRef.current, {
+      y: 50,
       opacity: 0,
       duration: 1.2,
       ease: "power3.out",
     }, "-=0.8");
 
+    // Parallax effect on scroll
     gsap.to(heroRef.current.querySelector("img"), {
-      yPercent: 15,
+      yPercent: 20,
       ease: "none",
       scrollTrigger: {
         trigger: heroRef.current,
@@ -34,36 +63,95 @@ export default function Hero() {
         scrub: true,
       },
     });
+
+    // Fade out on scroll
+    gsap.to([titleRef.current, textRef.current], {
+      opacity: 0,
+      y: -50,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "center center",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
   }, { scope: heroRef });
 
   return (
     <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-black">
-      <img
-        src="/images/potostudio/main.JPG"
-        alt="Memori MSDI"
-        className="absolute inset-0 h-full w-full object-cover object-top"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/90"></div>
-
-      <div className="absolute top-6 left-6 z-20">
-        <img src="/images/logomsdi.svg" alt="Logo MSDI" className="h-10 w-10" />
+      {/* Background image with parallax */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/potostudio/main.JPG"
+          alt="Memori MSDI"
+          className="absolute inset-0 h-full w-full object-cover object-top"
+        />
       </div>
 
-      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-15">
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
+
+      {/* Animated vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.7)_100%)]"></div>
+
+      {/* Logo with animation */}
+      <div className="absolute top-6 left-6 z-20" ref={logoRef}>
+        <img src="/images/logomsdi.svg" alt="Logo MSDI" className="h-12 w-12 drop-shadow-lg" />
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-20">
         <div className="max-w-5xl text-center text-white">
-          <h1 ref={titleRef} className="text-6xl md:text-8xl font-black tracking-wider drop-shadow-2xl uppercase ">
+          {/* Decorative line */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="w-16 h-px bg-gradient-to-r from-transparent to-white/50"></div>
+            <div className="w-2 h-2 bg-white/60 rotate-45"></div>
+            <div className="w-16 h-px bg-gradient-to-l from-transparent to-white/50"></div>
+          </div>
+
+          <h1
+            ref={titleRef}
+            className="text-7xl md:text-9xl font-black tracking-wider uppercase mb-4"
+            style={{
+              textShadow: "0 0 40px rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.5)",
+            }}
+          >
             MEMORI MSDI
           </h1>
+
+          {/* Subtitle with shimmer */}
+          <p className="text-sm md:text-base tracking-[0.3em] text-white/60 uppercase mb-8">
+            Preserving Our Precious Moments
+          </p>
+
+          {/* Decorative line */}
+          <div className="flex items-center justify-center gap-4">
+            <div className="w-24 h-px bg-gradient-to-r from-transparent to-white/30"></div>
+            <div className="w-1.5 h-1.5 bg-white/40 rotate-45"></div>
+            <div className="w-24 h-px bg-gradient-to-l from-transparent to-white/30"></div>
+          </div>
         </div>
       </div>
 
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 w-full px-6">
-        <p ref={textRef} className="text-xs md:text-sm leading-relaxed text-white/95 drop-shadow-lg max-w-4xl mx-auto text-center">
+      {/* Description text at bottom */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 w-full px-6">
+        <p
+          ref={textRef}
+          className="text-xs md:text-sm leading-relaxed text-white/90 drop-shadow-lg max-w-4xl mx-auto text-center"
+          style={{
+            textShadow: "0 2px 10px rgba(0,0,0,0.8)",
+          }}
+        >
           MSDI is more than just a place to grow and learn; it is a place where laughter, stories, and togetherness have blossomed into memories we will always cherish. Amid the harshness and coldness of the outside world, we have always found comfort and warmth in the people within it.
           Thank you for being part of this journey. Thank you for making every step more meaningful. You are not merely companions along the way, but family who will always hold a special place in our hearts.
           Bon Appétit. Let us savor every memory we have left, treasure them dearly, and carry them with us as we embark on the next chapter of our journey.
         </p>
       </div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
     </section>
   );
 }
