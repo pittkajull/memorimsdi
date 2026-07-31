@@ -15,25 +15,47 @@ export default function Hero() {
   }, []);
 
   useGSAP(() => {
-    const tl = gsap.timeline();
+    // Set initial hidden states before animating in
+    gsap.set([titleRef.current, textRef.current, logoRef.current], {
+      opacity: 0,
+    });
+    gsap.set(titleRef.current, { y: 100 });
+    gsap.set(textRef.current, { y: 50 });
+    gsap.set(logoRef.current, { scale: 0, rotation: -180 });
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        // After intro animation completes, remove all inline transforms
+        // so ScrollTrigger starts from a clean state
+        gsap.set(titleRef.current, { clearProps: "y,opacity" });
+        gsap.set(textRef.current, { clearProps: "y,opacity" });
+
+        // NOW create scroll-triggered fade out (only after intro is done)
+        createScrollAnimations();
+      },
+    });
 
     // Logo animation
-    tl.from(logoRef.current, {
-      scale: 0,
-      rotation: -180,
-      opacity: 0,
+    tl.to(logoRef.current, {
+      scale: 1,
+      rotation: 0,
+      opacity: 1,
       duration: 1,
       ease: "back.out(1.7)",
       delay: 0.5,
     });
 
-    // Title animation with letter reveal
-    tl.from(titleRef.current, {
-      y: 100,
-      opacity: 0,
-      duration: 1.5,
-      ease: "power4.out",
-    }, "-=0.5");
+    // Title animation
+    tl.to(
+      titleRef.current,
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1.5,
+        ease: "power4.out",
+      },
+      "-=0.5"
+    );
 
     // Add glow pulse to title
     gsap.to(titleRef.current, {
@@ -45,37 +67,65 @@ export default function Hero() {
     });
 
     // Text animation
-    tl.from(textRef.current, {
-      y: 50,
-      opacity: 0,
-      duration: 1.2,
-      ease: "power3.out",
-    }, "-=0.8");
-
-    // Parallax effect on scroll
-    gsap.to(heroRef.current.querySelector("img"), {
-      yPercent: 20,
-      ease: "none",
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
+    tl.to(
+      textRef.current,
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: "power3.out",
       },
-    });
+      "-=0.8"
+    );
 
-    // Fade out on scroll
-    gsap.to([titleRef.current, textRef.current], {
-      opacity: 0,
-      y: -50,
-      ease: "none",
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: "center center",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
+    function createScrollAnimations() {
+      // Parallax effect on scroll for background image
+      gsap.to(heroRef.current.querySelector("img"), {
+        yPercent: 20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      // Fade out title on scroll — only opacity, no y movement
+      // to avoid overflow-hidden clipping issues
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 1 },
+        {
+          opacity: 0,
+          ease: "none",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "5% top",
+            end: "40% top",
+            scrub: true,
+          },
+        }
+      );
+
+      // Fade out description text on scroll
+      gsap.fromTo(
+        textRef.current,
+        { opacity: 1 },
+        {
+          opacity: 0,
+          ease: "none",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "5% top",
+            end: "35% top",
+            scrub: true,
+          },
+        }
+      );
+    }
   }, { scope: heroRef });
 
   return (
@@ -102,18 +152,18 @@ export default function Hero() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-20">
+      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-4 md:pt-6">
         <div className="max-w-5xl text-center text-white">
           {/* Decorative line */}
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent to-white/50"></div>
-            <div className="w-2 h-2 bg-white/60 rotate-45"></div>
-            <div className="w-16 h-px bg-gradient-to-l from-transparent to-white/50"></div>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <div className="w-12 h-px bg-gradient-to-r from-transparent to-white/50"></div>
+            <div className="w-1.5 h-1.5 bg-white/60 rotate-45"></div>
+            <div className="w-12 h-px bg-gradient-to-l from-transparent to-white/50"></div>
           </div>
 
           <h1
             ref={titleRef}
-            className="text-7xl md:text-9xl font-black tracking-wider uppercase mb-4"
+            className="text-5xl md:text-7xl font-black tracking-[0.04em] uppercase mb-1 leading-[0.95]"
             style={{
               textShadow: "0 0 40px rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.5)",
             }}
@@ -122,15 +172,15 @@ export default function Hero() {
           </h1>
 
           {/* Subtitle with shimmer */}
-          <p className="text-sm md:text-base tracking-[0.3em] text-white/60 uppercase mb-8">
+          <p className="text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase mb-3">
             Preserving Our Precious Moments
           </p>
 
           {/* Decorative line */}
-          <div className="flex items-center justify-center gap-4">
-            <div className="w-24 h-px bg-gradient-to-r from-transparent to-white/30"></div>
-            <div className="w-1.5 h-1.5 bg-white/40 rotate-45"></div>
-            <div className="w-24 h-px bg-gradient-to-l from-transparent to-white/30"></div>
+          <div className="flex items-center justify-center gap-3">
+            <div className="w-16 h-px bg-gradient-to-r from-transparent to-white/30"></div>
+            <div className="w-1 h-1 bg-white/40 rotate-45"></div>
+            <div className="w-16 h-px bg-gradient-to-l from-transparent to-white/30"></div>
           </div>
         </div>
       </div>

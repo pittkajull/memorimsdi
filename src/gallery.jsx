@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import DomeGallery from "./domegallery";
 
 const photos = [
   "/images/fotoenjoy/01d0a3cd-ffcb-4bdd-8515-263beed9439d.JPG",
@@ -69,7 +70,7 @@ const photos = [
 export default function Gallery() {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
-  const gridRef = useRef(null);
+  const domeRef = useRef(null);
 
   useGSAP(() => {
     // Title animation
@@ -85,21 +86,15 @@ export default function Gallery() {
       },
     });
 
-    // Gallery items with 3D tilt effect
-    const items = gridRef.current.children;
-    gsap.from(items, {
-      scale: 0.8,
+    // Dome gallery reveal
+    gsap.from(domeRef.current, {
+      scale: 0.9,
       opacity: 0,
-      rotateX: 15,
-      duration: 0.6,
-      stagger: {
-        amount: 1.5,
-        from: "random",
-      },
-      ease: "back.out(1.2)",
+      duration: 1.2,
+      ease: "power3.out",
       scrollTrigger: {
-        trigger: gridRef.current,
-        start: "top 90%",
+        trigger: domeRef.current,
+        start: "top 85%",
       },
     });
   }, { scope: sectionRef });
@@ -110,9 +105,9 @@ export default function Gallery() {
       <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/30 to-black"></div>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.03)_0%,transparent_50%)]"></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10">
         {/* Section header */}
-        <div ref={titleRef} className="text-center mb-20">
+        <div ref={titleRef} className="text-center mb-20 max-w-7xl mx-auto">
           <p className="font-['Caveat',_cursive] text-2xl md:text-3xl text-amber-500/60 mb-4">
             #WeAlwaysRemember
           </p>
@@ -129,42 +124,31 @@ export default function Gallery() {
           </p>
         </div>
 
-        {/* Photo grid */}
-        <div ref={gridRef} className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-          {photos.map((src, index) => (
-            <div
-              key={index}
-              className="break-inside-avoid group relative overflow-hidden rounded-lg cursor-pointer"
-              style={{
-                perspective: "1000px",
-              }}
-            >
-              <div className="relative transform transition-all duration-700 group-hover:rotate-y-3 group-hover:rotate-x-3">
-                <img
-                  src={src}
-                  alt={`Memory ${index + 1}`}
-                  className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-110"
-                  loading="lazy"
-                />
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <span className="text-white/80 text-sm font-medium">Memory {index + 1}</span>
-                    </div>
-                  </div>
-                </div>
-                {/* Border glow on hover */}
-                <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-lg transition-all duration-500"></div>
-              </div>
-            </div>
-          ))}
+        {/* 3D dome gallery — full-bleed so it breaks out of the section padding */}
+        <div
+          ref={domeRef}
+          className="relative w-screen ml-[calc(50%-50vw)] h-[80vh] md:h-[95vh] overflow-hidden"
+        >
+          <DomeGallery
+            images={photos}
+            fit={0.82}
+            fitBasis="width"
+            minRadius={620}
+            segments={26}
+            grayscale={false}
+            autoRotate
+            autoRotateSpeed={3.5}
+            overlayBlurColor="#000000"
+            imageBorderRadius="14px"
+            openedImageBorderRadius="18px"
+            openedImageWidth="min(80vw, 520px)"
+            openedImageHeight="min(60vh, 520px)"
+          />
         </div>
+
+        <p className="mt-6 text-center text-white/30 text-xs tracking-[0.2em] uppercase">
+          Drag to explore &middot; Click a photo to enlarge
+        </p>
 
         {/* Bottom quote */}
         <div className="mt-20 text-center">
