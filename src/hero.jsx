@@ -154,13 +154,6 @@ export default function Hero() {
       {/* Main content */}
       <div className="relative z-10 flex h-full items-start justify-center px-6 pt-4 md:pt-6">
         <div className="max-w-5xl text-center text-white">
-          {/* Decorative line */}
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="w-12 h-px bg-gradient-to-r from-transparent to-white/50"></div>
-            <div className="w-1.5 h-1.5 bg-white/60 rotate-45"></div>
-            <div className="w-12 h-px bg-gradient-to-l from-transparent to-white/50"></div>
-          </div>
-
           <h1
             ref={titleRef}
             className="text-5xl md:text-7xl font-black tracking-[0.04em] uppercase mb-1 leading-[0.95]"
@@ -172,16 +165,9 @@ export default function Hero() {
           </h1>
 
           {/* Subtitle with shimmer */}
-          <p className="text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase mb-3">
+          <p className="text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase">
             Preserving Our Precious Moments
           </p>
-
-          {/* Decorative line */}
-          <div className="flex items-center justify-center gap-3">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent to-white/30"></div>
-            <div className="w-1 h-1 bg-white/40 rotate-45"></div>
-            <div className="w-16 h-px bg-gradient-to-l from-transparent to-white/30"></div>
-          </div>
         </div>
       </div>
 
@@ -194,7 +180,7 @@ export default function Hero() {
             textShadow: "0 2px 10px rgba(0,0,0,0.8)",
           }}
         >
-          MSDI is more than just a place to grow and learn; it is a place where laughter, stories, and togetherness have blossomed into memories we will always cherish. Amid the harshness and coldness of the outside world, we have always found comfort and warmth in the people within it.
+          MSDI is more than just a place to grow and learn, it is a place where laughter, stories, and togetherness have blossomed into memories we will always cherish. Amid the harshness and coldness of the outside world, we have always found comfort and warmth in the people within it.
           Thank you for being part of this journey. Thank you for making every step more meaningful. You are not merely companions along the way, but family who will always hold a special place in our hearts.
           Bon Appétit. Let us savor every memory we have left, treasure them dearly, and carry them with us as we embark on the next chapter of our journey.
         </p>
