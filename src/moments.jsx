@@ -1,18 +1,18 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
 // TODO: 34 nama + pesan di bawah masih placeholder — ganti sesuai aslinya.
 // Jumlahnya bebas ditambah/dikurangin, pembagian barisnya otomatis.
 const notes = [
-  { text: "Ga nyangka setahun bisa secepat ini.", from: "Rara" },
-  { text: "Kalian tuh rumah kedua gw, seriusan.", from: "Fajar" },
-  { text: "Yang paling gw kangenin nanti pasti ributnya kalian.", from: "Dimas" },
-  { text: "Dari yang awalnya ga kenal siapa-siapa, sekarang susah pisah.", from: "Nabila" },
-  { text: "Capek sih, tapi ketawanya jauh lebih banyak.", from: "Rizky" },
-  { text: "Makasih udah sabar sama gw yang telat mulu.", from: "Alya" },
-  { text: "Satu tahun, satu angkatan, satu cerita.", from: "Bagas" },
-  { text: "Semoga habis ini kita masih suka ngumpul.", from: "Sasa" },
+  { text: "kyanya semesta lgi baik bgt waktu mutusin buat mempertemukan aku sma kalian.. beruntung bgt rasanya💗💗  ", from: "Dedep" },
+  { text: "ga nyangka bisa jadi core memory gua", from: "Gisel  " },
+  { text: "MSDI will never be replaced in my heaven 🤍", from: "Nadia" },
+  { text: " ngerasainnya cape sih, cape bgt, nguras energi, tenaga, duit. Tapi kalo disuruh ngulang lagi, GW MAU BGT..", from: "Hira" },
+  { text: "BLACKPINK says in their song Lovesick Girls, “But why we still looking for love?” MSDI is the answer to it, as it was LOoOve!", from: "Arka" },
+  { text: "bersyukur bangettt bisa ketemu dan kenal sama kalian. kapan yaa kita bisa ngerasain momen kayak dulu lagi?", from: "Aziz" },
+  { text: "so grateful for every little moment, every support, and every laugh we shared. love you msdi!", from: "Zafif" },
+  { text: "Semoga habis ini kita masi suka ngumpul.", from: "eji" },
   { text: "Kalau bisa diulang, gw mau ulang dari hari pertama.", from: "Yoga" },
   { text: "Rapat yang ga pernah kelar tepat waktu, tapi kangen juga.", from: "Intan" },
   { text: "Makasih udah nerima gw yang aneh ini.", from: "Farhan" },
@@ -45,11 +45,25 @@ const notes = [
 const tilts = [-3, 2, -1.5, 3, -2.5, 1.5, -2, 2.5, -1, 2, -2.5, 1];
 const papers = ["#f6f3ec", "#f2ece0", "#efe9e4", "#f4f1e6", "#ede9de", "#f5efe6"];
 const tapeTilts = [-14, 10, -7, 18, -11, 5];
+const stampTilts = [-8, 6, -5, 9, -7, 4, -6, 8];
+
+// Path foto diturunin dari nama penulis, jadi ga perlu ditulis manual:
+//   "Dedep"   -> /images/fotokartun/dedep.png
+//   "Gisel  " -> /images/fotokartun/gisel.png   (spasi & huruf besar diberesin)
+// Taruh file baru di folder itu, otomatis kepake. Yang belum ada fotonya
+// ga nampilin apa-apa (lihat onError di bawah).
+const avatarSrc = (from) =>
+  `/images/fotokartun/${from.trim().toLowerCase().replace(/\s+/g, "")}.png`;
 
 function Note({ note, index }) {
   const tilt = tilts[index % tilts.length];
   const paper = papers[index % papers.length];
   const tapeTilt = tapeTilts[index % tapeTilts.length];
+  const stampTilt = stampTilts[index % stampTilts.length];
+
+  // Foto yang filenya belum ada bakal gagal load -> disembunyiin,
+  // biar ga ada ikon gambar rusak di kartunya
+  const [hasAvatar, setHasAvatar] = useState(true);
 
   return (
     // Lebar dipatok biar tinggi barisnya rata dan jalannya mulus
@@ -75,13 +89,41 @@ function Note({ note, index }) {
         &ldquo;
       </span>
 
-      <p className="relative min-h-[4.5rem] font-['Caveat',_cursive] text-xl leading-snug text-zinc-800 md:text-2xl">
-        {note.text}
-      </p>
+      {/* 2 kolom: teks di kiri, foto di kanan. Dipisah kolom (bukan absolute)
+          biar fotonya mustahil nimpa teksnya, sepanjang apapun pesannya.
+          min-h biar kartu yang belum ada fotonya tetap setinggi yang udah ada. */}
+      <div className="relative flex min-h-[7rem] gap-3">
+        {/* Kolom teks */}
+        <div className="min-w-0 flex-1">
+          <p className="min-h-[4.5rem] font-['Caveat',_cursive] text-xl leading-snug text-zinc-800 md:text-2xl">
+            {note.text}
+          </p>
 
-      <div className="mt-4 flex items-center gap-2">
-        <div className="h-px w-6 bg-zinc-900/25 transition-all duration-500 group-hover:w-10"></div>
-        <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-900/45">{note.from}</p>
+          <div className="mt-4 flex items-center gap-3">
+            <div className="h-px w-6 shrink-0 bg-zinc-900/25 transition-all duration-500 group-hover:w-10"></div>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-900/45">
+              {note.from.trim()}
+            </p>
+          </div>
+        </div>
+
+        {/* Kolom foto — rata bawah, sedikit lewat tepi kanan & bawah kertas.
+            drop-shadow (bukan box-shadow) biar bayangannya ngikut bentuk
+            orangnya, bukan ngikut kotak gambarnya. */}
+        {hasAvatar && (
+          <div className="-mb-6 -mr-3 flex shrink-0 items-end">
+            <img
+              src={avatarSrc(note.from)}
+              alt={note.from.trim()}
+              onError={() => setHasAvatar(false)}
+              className="h-[8.5rem] w-auto max-w-[6rem] origin-bottom object-contain object-bottom
+                         drop-shadow-[0_4px_10px_rgba(0,0,0,0.35)]
+                         transition-transform duration-500 ease-out group-hover:scale-[1.06]
+                         md:h-[9.5rem] md:max-w-[7rem]"
+              style={{ transform: `rotate(${stampTilt / 3}deg)` }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Lipatan tipis di pojok bawah */}
@@ -172,10 +214,17 @@ export default function Moments() {
 
       {/* Header */}
       <div className="relative z-10 mb-14 px-6 text-center md:px-12">
-        <p className="mb-4 text-[10px] uppercase tracking-[0.4em] text-white/40">Pesan &amp; Kesan</p>
-        <h2 className="text-4xl font-black tracking-tight text-white md:text-6xl">Kata Mereka</h2>
+        <p className="mb-4 text-[10px] uppercase tracking-[0.4em] text-white/40">In Their Words</p>
+        <h2 className="leading-[1.1]">
+          <span className="block font-['Caveat',_cursive] text-5xl text-white/80 md:text-7xl">
+            What They
+          </span>
+          <span className="mt-1 block text-4xl font-black uppercase tracking-tight text-white md:text-6xl">
+            Left Behind
+          </span>
+        </h2>
         <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-white/40">
-          {notes.length} orang, {notes.length} cerita. Arahin kursor buat berhenti sebentar.
+          {notes.length} people, {notes.length} stories. Hover to pause and read.
         </p>
       </div>
 

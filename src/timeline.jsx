@@ -3,25 +3,25 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
 // Urutan array = urutan tampil: kiri, tengah, kanan.
-// TODO: jabatan & catatannya ganti sesuai aslinya.
+// TODO: role & note-nya ganti sesuai aslinya.
 const mentors = [
   {
     name: "Alel",
     src: "/images/fotokakaks/alel.JPG",
-    role: "Pendamping",
-    note: "Yang selalu ada dari awal sampai akhir.",
+    role: "Mentor",
+    note: "The one who stayed with us from the very first day.",
   },
   {
     name: "Dido",
     src: "/images/fotokakaks/dido.JPG",
-    role: "Pendamping",
-    note: "Yang paling sabar ngadepin kita semua.",
+    role: "Mentor",
+    note: "The most patient one, no matter how loud we got.",
   },
   {
     name: "Naflah",
     src: "/images/fotokakaks/naflah.JPG",
-    role: "Pendamping",
-    note: "Yang bikin suasana ga pernah tegang.",
+    role: "Mentor",
+    note: "The one who kept everything light and warm.",
   },
 ];
 
@@ -135,12 +135,17 @@ export default function Timeline() {
       <div className="relative z-10 mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-16 text-center">
-          <p className="mb-4 text-[10px] uppercase tracking-[0.4em] text-white/40">Terima Kasih</p>
-          <h2 className="text-4xl font-black tracking-tight text-white md:text-6xl">
-            Orang-orang di Balik Semua Ini
+          <p className="mb-4 text-[10px] uppercase tracking-[0.4em] text-white/40">Thank You</p>
+          <h2 className="leading-[1.1]">
+            <span className="block font-['Caveat',_cursive] text-5xl text-white/80 md:text-7xl">
+              The People Behind
+            </span>
+            <span className="mt-1 block text-4xl font-black uppercase tracking-tight text-white md:text-6xl">
+              All of This
+            </span>
           </h2>
           <p className="mx-auto mt-6 max-w-lg text-sm leading-relaxed text-white/40 md:text-base">
-            Kenalin, kakak-kakak yang ngebimbing kita dari nol sampai sejauh ini.
+            The people who made Malang feel a little more like home.
           </p>
         </div>
 
@@ -153,9 +158,25 @@ export default function Timeline() {
         </div>
 
         {/* Penutup */}
-        <p className="mt-20 text-center font-['Caveat',_cursive] text-2xl text-white/30 md:text-3xl">
-          Makasih ya, kak.
-        </p>
+        <div className="mx-auto mt-20 max-w-2xl text-center">
+          <p className="text-sm leading-relaxed text-white/50 md:text-base">
+            Thank you for giving meaning to our days in Malang and at Universitas Brawijaya. Thank
+            you for filling this cold city with warmth, and for becoming the family we never
+            expected to find in a place so far from home.
+          </p>
+
+          <p className="mt-6 text-sm leading-relaxed text-white/50 md:text-base">
+            No matter where life takes us next, a part of our hearts will always remain
+            here with the memories we created together.
+          </p>
+
+          {/* Garis amber tipis sebelum kalimat penutup */}
+          <div className="mx-auto mt-10 h-px w-24 bg-gradient-to-r from-transparent via-amber-400/50 to-transparent"></div>
+
+          <p className="mt-8 font-['Caveat',_cursive] text-2xl leading-snug text-white/70 md:text-3xl">
+            Thank you, for everything. We&rsquo;ll carry this story with us, wherever we go.
+          </p>
+        </div>
       </div>
     </section>
   );
