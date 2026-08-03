@@ -1,71 +1,161 @@
-const memories = [
+import { useRef, useState } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
+
+// Urutan array = urutan tampil: kiri, tengah, kanan.
+// TODO: jabatan & catatannya ganti sesuai aslinya.
+const mentors = [
   {
-    year: "2023",
-    title: "The Beginning of the Journey",
-    description: "When we first gathered with the same passion, taking small steps toward big dreams.",
+    name: "Alel",
+    src: "/images/fotokakaks/alel.JPG",
+    role: "Pendamping",
+    note: "Yang selalu ada dari awal sampai akhir.",
   },
   {
-    year: "2024",
-    title: "Challenges & Growth",
-    description: "Overcoming various obstacles, learning from failure, and discovering strength in unity.",
+    name: "Dido",
+    src: "/images/fotokakaks/dido.JPG",
+    role: "Pendamping",
+    note: "Yang paling sabar ngadepin kita semua.",
   },
   {
-    year: "2025",
-    title: "Extraordinary Achievements",
-    description: "Achieving accomplishments we never imagined, proving that hard work pays off.",
+    name: "Naflah",
+    src: "/images/fotokakaks/naflah.JPG",
+    role: "Pendamping",
+    note: "Yang bikin suasana ga pernah tegang.",
   },
 ];
 
-export default function Timeline() {
+function MentorCard({ mentor, index, active, setActive }) {
+  const isActive = active === index;
+  const isDimmed = active !== null && !isActive;
+
   return (
-    <section className="relative bg-black py-32 px-6">
-      <div className="max-w-5xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-24">
-          <span className="text-white/30 text-xs tracking-[0.4em] uppercase block mb-4">
-            Our Journey
+    // Layer luar: target GSAP. Jangan taruh class transform/opacity di sini —
+    // GSAP nulis inline style yang bakal nimpa class-nya.
+    <div className="mentor-card">
+      {/* Layer dalam: semua efek hover di sini */}
+      <div
+        onMouseEnter={() => setActive(index)}
+        onMouseLeave={() => setActive(null)}
+        onClick={() => setActive(isActive ? null : index)}
+        className={`group relative cursor-pointer transition-all duration-700 ease-out
+                    ${isActive ? "md:-translate-y-4" : ""}
+                    ${isDimmed ? "opacity-40 md:scale-[0.96]" : "opacity-100"}`}
+      >
+        {/* Bingkai tipis berlapis di belakang */}
+        <div
+          className={`pointer-events-none absolute h-full w-full border transition-all duration-700
+                      ${isActive ? "-bottom-4 -right-4 border-amber-400/30" : "-bottom-2 -right-2 border-white/10"}`}
+        ></div>
+
+        {/* Foto */}
+        <div className="relative aspect-[3/4] overflow-hidden bg-zinc-900 shadow-[0_30px_70px_-20px_rgba(0,0,0,1)]">
+          <img
+            src={mentor.src}
+            alt={mentor.name}
+            loading="lazy"
+            className="h-full w-full object-cover object-top transition-all duration-[900ms] ease-out"
+            style={{
+              transform: isActive ? "scale(1.18)" : "scale(1)",
+              filter: isActive ? "grayscale(0) brightness(1)" : "grayscale(0.55) brightness(0.85)",
+            }}
+          />
+
+          {/* Vignette bawah, biar teksnya kebaca */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+
+          {/* Nomor urut di pojok atas */}
+          <span
+            className={`absolute left-5 top-5 text-[10px] font-black tabular-nums tracking-widest transition-colors duration-500
+                        ${isActive ? "text-amber-300/90" : "text-white/25"}`}
+          >
+            {String(index + 1).padStart(2, "0")}
           </span>
-          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight">
-            Our Memories
-          </h2>
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <div className="w-12 h-px bg-white/20"></div>
-            <div className="w-1.5 h-1.5 bg-white/40 rotate-45"></div>
-            <div className="w-12 h-px bg-white/20"></div>
+
+          {/* Nama + info */}
+          <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+            <p
+              className={`mb-1 text-[9px] uppercase tracking-[0.25em] transition-all duration-500
+                          ${isActive ? "text-amber-400/80" : "text-white/30"}`}
+            >
+              {mentor.role}
+            </p>
+
+            <h3 className="font-['Caveat',_cursive] text-3xl leading-none text-white md:text-4xl">
+              {mentor.name}
+            </h3>
+
+            {/* Garis amber yang manjang pas aktif */}
+            <div
+              className={`mt-3 h-px bg-gradient-to-r from-amber-400/70 to-transparent transition-all duration-700
+                          ${isActive ? "w-full" : "w-8"}`}
+            ></div>
+
+            {/* Catatan — muncul pas aktif */}
+            <div
+              className={`overflow-hidden transition-all duration-500 ease-out
+                          ${isActive ? "mt-3 max-h-24 opacity-100" : "mt-0 max-h-0 opacity-0"}`}
+            >
+              <p className="text-xs leading-relaxed text-white/60 md:text-sm">{mentor.note}</p>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
 
-        {/* Timeline Items */}
-        <div className="space-y-0">
-          {memories.map((memory, index) => (
-            <div key={index} className="relative flex items-start gap-8 md:gap-16 group">
-              {/* Left: Year */}
-              <div className="flex-shrink-0 w-24 md:w-32 text-right pt-1">
-                <span className="text-3xl md:text-5xl font-black text-white/10 group-hover:text-white/30 transition-colors duration-700">
-                  {memory.year}
-                </span>
-              </div>
+export default function Timeline() {
+  const sectionRef = useRef(null);
+  const [active, setActive] = useState(null);
 
-              {/* Center: Line & Dot */}
-              <div className="flex-shrink-0 flex flex-col items-center">
-                <div className="w-3 h-3 rounded-full bg-white/20 group-hover:bg-white/60 transition-all duration-500 ring-4 ring-black"></div>
-                {index < memories.length - 1 && (
-                  <div className="w-px h-32 bg-gradient-to-b from-white/20 to-transparent"></div>
-                )}
-              </div>
+  useGSAP(
+    () => {
+      gsap.from(".mentor-card", {
+        y: 70,
+        opacity: 0,
+        scale: 0.94,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+      });
+    },
+    { scope: sectionRef }
+  );
 
-              {/* Right: Content */}
-              <div className="flex-1 pb-20">
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 tracking-wide">
-                  {memory.title}
-                </h3>
-                <p className="text-white/40 leading-relaxed text-sm md:text-base max-w-lg">
-                  {memory.description}
-                </p>
-              </div>
-            </div>
+  return (
+    <section ref={sectionRef} className="relative overflow-hidden bg-black py-28 px-6 md:px-12">
+      {/* Grain texture */}
+      <div className="absolute inset-0 opacity-15 pointer-events-none bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]"></div>
+
+      {/* Cahaya hangat */}
+      <div className="pointer-events-none absolute left-1/2 top-10 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl"></div>
+
+      <div className="relative z-10 mx-auto max-w-6xl">
+        {/* Header */}
+        <div className="mb-16 text-center">
+          <p className="mb-4 text-[10px] uppercase tracking-[0.4em] text-white/40">Terima Kasih</p>
+          <h2 className="text-4xl font-black tracking-tight text-white md:text-6xl">
+            Orang-orang di Balik Semua Ini
+          </h2>
+          <p className="mx-auto mt-6 max-w-lg text-sm leading-relaxed text-white/40 md:text-base">
+            Kenalin, kakak-kakak yang ngebimbing kita dari nol sampai sejauh ini.
+          </p>
+        </div>
+
+        {/* 3 kartu sejajar. Langsung 1 -> 3 kolom, ga lewat 2 kolom,
+            biar kartu ketiga ga nyendiri di baris bawah. */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6 lg:gap-10">
+          {mentors.map((m, i) => (
+            <MentorCard key={m.name} mentor={m} index={i} active={active} setActive={setActive} />
           ))}
         </div>
+
+        {/* Penutup */}
+        <p className="mt-20 text-center font-['Caveat',_cursive] text-2xl text-white/30 md:text-3xl">
+          Makasih ya, kak.
+        </p>
       </div>
     </section>
   );
