@@ -5,16 +5,26 @@ import { useGSAP } from "@gsap/react";
 // Foto tempelan cuma nempel di pinggir kiri/kanan, ga pernah masuk kolom
 // tengah. Makanya posisinya ditulis "side" (kiri/kanan) + jarak dari tepi,
 // bukan koordinat X bebas — biar mustahil nabrak kertas catatannya.
+//
+// top-nya piksel, bukan persen. Persen itu muter-muter: posisi foto ngitung
+// dari tinggi container, tapi tinggi container-nya sendiri nyesuain isi. Pakai
+// piksel jadi pasti, dan gampang dicocokin sama MIN_STAGE_HEIGHT di bawah.
 const scatteredPhotos = [
-  { src: "/images/fotoenjoy/11c638d5-0910-44bc-bd98-c583372115d3.jpg", side: "left", top: "0%", inset: "0%", width: "228px", rotate: -8 },
-  { src: "/images/fotoenjoy/2fe2145c-df06-40ea-a698-bc3d2049b417.jpg", side: "right", top: "3%", inset: "2%", width: "212px", rotate: 7 },
-  { src: "/images/fotoenjoy/62e69552-a445-435a-8326-144f35f4a8a1.JPG", side: "left", top: "25%", inset: "4%", width: "204px", rotate: 6 },
-  { src: "/images/fotoenjoy/78682475-68db-4772-af7b-c12c9437d4b3.JPG", side: "right", top: "29%", inset: "0%", width: "228px", rotate: -6 },
-  { src: "/images/fotoenjoy/8b073779-edf9-480d-8143-e90e24c44e66.JPG", side: "left", top: "51%", inset: "1%", width: "218px", rotate: -5 },
-  { src: "/images/fotoenjoy/9458c31d-61c8-4054-b0c1-551b6e766fc8.JPG", side: "right", top: "55%", inset: "3%", width: "204px", rotate: 8 },
-  { src: "/images/fotoenjoy/99420135-f1dc-4be3-bfa0-f072aebcef56.JPG", side: "left", top: "75%", inset: "3%", width: "208px", rotate: 9 },
-  { src: "/images/fotoenjoy/13dd1a41-5183-4e2e-b4e5-aeda1dfa590c.JPG", side: "right", top: "78%", inset: "1%", width: "222px", rotate: -7 },
+  { src: "/images/fotoenjoy/11c638d5-0910-44bc-bd98-c583372115d3.jpg", side: "left", top: 0, inset: "0%", width: 228, rotate: -8 },
+  { src: "/images/fotoenjoy/2fe2145c-df06-40ea-a698-bc3d2049b417.jpg", side: "right", top: 30, inset: "2%", width: 212, rotate: 7 },
+  { src: "/images/fotoenjoy/62e69552-a445-435a-8326-144f35f4a8a1.JPG", side: "left", top: 255, inset: "4%", width: 204, rotate: 6 },
+  { src: "/images/fotoenjoy/78682475-68db-4772-af7b-c12c9437d4b3.JPG", side: "right", top: 290, inset: "0%", width: 228, rotate: -6 },
+  { src: "/images/fotoenjoy/8b073779-edf9-480d-8143-e90e24c44e66.JPG", side: "left", top: 515, inset: "1%", width: 218, rotate: -5 },
+  { src: "/images/fotoenjoy/9458c31d-61c8-4054-b0c1-551b6e766fc8.JPG", side: "right", top: 550, inset: "3%", width: 204, rotate: 8 },
+  { src: "/images/fotoenjoy/99420135-f1dc-4be3-bfa0-f072aebcef56.JPG", side: "left", top: 770, inset: "3%", width: 208, rotate: 9 },
+  { src: "/images/fotoenjoy/13dd1a41-5183-4e2e-b4e5-aeda1dfa590c.JPG", side: "right", top: 805, inset: "1%", width: 222, rotate: -7 },
 ];
+
+// Foto paling bawah mulai di 805px dan manjang ke bawah, sementara tinggi
+// container ditentuin kolom tengah yang lebih pendek — makanya barisan bawah
+// kepotong overflow-hidden. Ini tinggi minimal biar semua foto masuk:
+// top terbawah + tinggi foto (rasio 4:3 + bingkai polaroid) + kelonggaran.
+const MIN_STAGE_HEIGHT = 1130;
 
 // Rotasi awal animasi masuk — dulu pakai Math.random() jadi beda tiap muat.
 // Dibikin tetap biar tampilannya sama terus.
@@ -78,7 +88,9 @@ export default function Ending() {
       {/* Serat kayu */}
       <div className="absolute inset-0 opacity-10 bg-[repeating-linear-gradient(90deg,transparent,transparent_30px,rgba(139,90,43,0.3)_30px,rgba(139,90,43,0.3)_31px)]"></div>
 
-      <div className="relative mx-auto max-w-6xl px-4">
+      {/* min-height cuma dipasang di lg — di situ aja fotonya nempel absolute
+          dan butuh ruang. Di layar sempit fotonya ikut mengalir, jadi ga usah. */}
+      <div className="relative mx-auto max-w-6xl px-4 lg:min-h-[var(--stage-h)]" style={{ "--stage-h": `${MIN_STAGE_HEIGHT}px` }}>
         {/* Foto pinggir — baru muncul di lg ke atas. Di bawah itu ruang
             kiri-kanannya ga cukup, jadi fotonya pindah ke grid di bawah. */}
         {scatteredPhotos.map((photo, index) => (
@@ -88,8 +100,8 @@ export default function Ending() {
             className="absolute hidden lg:block"
             style={{
               [photo.side]: photo.inset,
-              top: photo.top,
-              width: photo.width,
+              top: `${photo.top}px`,
+              width: `${photo.width}px`,
               zIndex: 10 + index,
             }}
           >
