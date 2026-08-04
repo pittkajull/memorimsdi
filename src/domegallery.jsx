@@ -120,7 +120,6 @@ export default function DomeGallery({
   const inertiaRAF = useRef(null);
   const openingRef = useRef(false);
   const openStartedAtRef = useRef(0);
-  const lastDragEndAt = useRef(0);
 
   const scrollLockedRef = useRef(false);
 
@@ -309,7 +308,6 @@ export default function DomeGallery({
   const stopDrag = useCallback(
     (velocityX, velocityY) => {
       draggingRef.current = false;
-      lastDragEndAt.current = performance.now();
       startPosRef.current = null;
       if (Math.abs(velocityX) > 0.005 || Math.abs(velocityY) > 0.005) {
         startInertia(velocityX, velocityY);
@@ -590,21 +588,36 @@ export default function DomeGallery({
     };
   }, [stopInertia, unlockScroll]);
 
-  const onTileClick = useCallback(
+  // Tiap pointer turun, penanda "udah gerak" direset. Kalau ga direset di sini,
+  // nilainya masih kebawa dari gesture sebelumnya — jadi sekali user pernah
+  // nge-drag, klik sesudahnya kebaca sebagai drag terus.
+  const onTilePointerDown = useCallback(() => {
+    movedRef.current = false;
+    cancelTapRef.current = false;
+  }, []);
+
+  // Bukanya lewat pointerup, bukan click. Dua alasannya:
+  //   1. Bola ini muter sendiri (autoRotate). Kalau pakai click, browser nunggu
+  //      pointerdown & pointerup jatuh di elemen yang sama — pas bolanya geser
+  //      dikit di antara keduanya, target click-nya naik ke .sphere dan kartunya
+  //      ga kebuka sama sekali.
+  //   2. pointerup jalan di mouse & sentuh sekaligus, jadi ga perlu dua jalur
+  //      yang logikanya nyaris sama.
+  const onTileActivate = useCallback(
     (e) => {
       if (draggingRef.current || movedRef.current || cancelTapRef.current) return;
-      if (performance.now() - lastDragEndAt.current < 80) return;
       if (openingRef.current || focusedElRef.current) return;
       openItemFromElement(e.currentTarget);
     },
     [openItemFromElement]
   );
 
-  const onTilePointerUp = useCallback(
+  // role="button" + tabIndex butuh jalur keyboard sendiri, soalnya handler
+  // click-nya udah ga ada.
+  const onTileKeyDown = useCallback(
     (e) => {
-      if (e.pointerType !== "touch") return;
-      if (draggingRef.current || movedRef.current || cancelTapRef.current) return;
-      if (performance.now() - lastDragEndAt.current < 80) return;
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
       if (openingRef.current || focusedElRef.current) return;
       openItemFromElement(e.currentTarget);
     },
@@ -648,8 +661,9 @@ export default function DomeGallery({
                   role="button"
                   tabIndex={0}
                   aria-label={it.alt || "Open image"}
-                  onClick={onTileClick}
-                  onPointerUp={onTilePointerUp}
+                  onPointerDown={onTilePointerDown}
+                  onPointerUp={onTileActivate}
+                  onKeyDown={onTileKeyDown}
                 >
                   <img src={it.src} draggable={false} alt={it.alt} loading="lazy" />
                 </div>
