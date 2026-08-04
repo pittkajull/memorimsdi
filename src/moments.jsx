@@ -24,7 +24,7 @@ const notes = [
   { text: "ga ada kata nyesel karena udah milih MSDI, mau banget kalo bisa ngulang di MSDI lagi, luv u sekebon MSDI :>", from: "rifandi" },
   { text: "jujur seru banget, this is definitely the most worthwhile decision I made last year", from: "salma" },
   { text: "Andai aja aku ikut wawancara waktu itu, aku pasti masuk msdi😔", from: "adam" },
-  // { text: "Kalau lagi capek, gw inget-inget ketawa kalian.", from: "Mira" },
+  { text: "bersyukur bisa jadi bagian dari MSDI dan selalu ngerasa nyaman karena dikelilingi orang-orang baik 🥺💗", from: "alya" },
   // { text: "Sedih, tapi bangga pernah jadi bagian dari ini.", from: "Daffa" },
   // { text: "Semua drama kecil itu sekarang jadi lucu.", from: "Nayla" },
   // { text: "Makasih ilmunya, makasih ketawanya.", from: "Arif" },

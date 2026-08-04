@@ -3,24 +3,20 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
 // Urutan array = urutan tampil: kiri, tengah, kanan.
-// TODO: role & note-nya ganti sesuai aslinya.
 const mentors = [
   {
     name: "Alel",
     src: "/images/fotokakaks/alel.JPG",
-    role: "Mentor",
-    note: "The one who stayed with us from the very first day.",
+    note: "The one who always gave us the most love and care.",
   },
   {
     name: "Dido",
     src: "/images/fotokakaks/dido.JPG",
-    role: "Mentor",
     note: "The most patient one, no matter how loud we got.",
   },
   {
     name: "Naflah",
     src: "/images/fotokakaks/naflah.JPG",
-    role: "Mentor",
     note: "The one who kept everything light and warm.",
   },
 ];
@@ -64,23 +60,8 @@ function MentorCard({ mentor, index, active, setActive }) {
           {/* Vignette bawah, biar teksnya kebaca */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
 
-          {/* Nomor urut di pojok atas */}
-          <span
-            className={`absolute left-5 top-5 text-[10px] font-black tabular-nums tracking-widest transition-colors duration-500
-                        ${isActive ? "text-amber-300/90" : "text-white/25"}`}
-          >
-            {String(index + 1).padStart(2, "0")}
-          </span>
-
           {/* Nama + info */}
           <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-            <p
-              className={`mb-1 text-[9px] uppercase tracking-[0.25em] transition-all duration-500
-                          ${isActive ? "text-amber-400/80" : "text-white/30"}`}
-            >
-              {mentor.role}
-            </p>
-
             <h3 className="font-['Caveat',_cursive] text-3xl leading-none text-white md:text-4xl">
               {mentor.name}
             </h3>

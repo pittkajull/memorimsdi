@@ -151,12 +151,16 @@ export default function Hero() {
         <img src="/images/logomsdi.svg" alt="Logo MSDI" className="h-12 w-12 drop-shadow-lg" />
       </div>
 
-      {/* Main content */}
-      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-4 md:pt-6">
+      {/* Main content — jarak atas & ukuran huruf pakai satuan viewport (vh/vw)
+          biar perbandingannya sama di layar apa aja, bukan cuma di desktop.
+          clamp() ngasih batas bawah-atas supaya di layar mungil ga kekecilan
+          dan di monitor lebar ga kebablasan. */}
+      <div className="relative z-10 flex h-full items-start justify-center px-6 pt-[9vh] md:pt-[8vh]">
         <div className="max-w-5xl text-center text-white">
           <h1
             ref={titleRef}
-            className="text-5xl md:text-7xl font-black tracking-[0.04em] uppercase mb-1 leading-[0.95]"
+            className="mb-1 font-black uppercase leading-[0.95] tracking-[0.04em]
+                       text-[clamp(2rem,8.5vw,4.75rem)]"
             style={{
               textShadow: "0 0 40px rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.5)",
             }}
@@ -165,17 +169,18 @@ export default function Hero() {
           </h1>
 
           {/* Subtitle with shimmer */}
-          <p className="text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase">
+          <p className="uppercase tracking-[0.3em] text-white/60 text-[clamp(0.5rem,1.5vw,0.75rem)]">
             Preserving Our Precious Moments
           </p>
         </div>
       </div>
 
       {/* Description text at bottom */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 w-full px-6">
+      <div className="absolute bottom-[clamp(1rem,4vh,2rem)] left-1/2 z-10 w-full -translate-x-1/2 px-6">
         <p
           ref={textRef}
-          className="text-xs md:text-sm leading-relaxed text-white/90 drop-shadow-lg max-w-4xl mx-auto text-center"
+          className="mx-auto max-w-4xl text-center leading-relaxed text-white/90 drop-shadow-lg
+                     text-[clamp(0.625rem,1.35vw,0.875rem)]"
           style={{
             textShadow: "0 2px 10px rgba(0,0,0,0.8)",
           }}
