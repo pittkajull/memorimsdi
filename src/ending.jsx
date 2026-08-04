@@ -2,16 +2,23 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
+// Foto tempelan cuma nempel di pinggir kiri/kanan, ga pernah masuk kolom
+// tengah. Makanya posisinya ditulis "side" (kiri/kanan) + jarak dari tepi,
+// bukan koordinat X bebas — biar mustahil nabrak kertas catatannya.
 const scatteredPhotos = [
-  { src: "/images/fotoenjoy/11c638d5-0910-44bc-bd98-c583372115d3.jpg", alt: "Memory", rotate: -15, x: "2%", y: "5%", width: "260px" },
-  { src: "/images/fotoenjoy/2fe2145c-df06-40ea-a698-bc3d2049b417.jpg", alt: "Memory", rotate: 8, x: "68%", y: "2%", width: "240px" },
-  { src: "/images/fotoenjoy/62e69552-a445-435a-8326-144f35f4a8a1.JPG", alt: "Memory", rotate: -5, x: "78%", y: "28%", width: "220px" },
-  { src: "/images/fotoenjoy/78682475-68db-4772-af7b-c12c9437d4b3.JPG", alt: "Memory", rotate: 12, x: "0%", y: "38%", width: "250px" },
-  { src: "/images/fotoenjoy/8b073779-edf9-480d-8143-e90e24c44e66.JPG", alt: "Memory", rotate: -8, x: "72%", y: "58%", width: "230px" },
-  { src: "/images/fotoenjoy/9458c31d-61c8-4054-b0c1-551b6e766fc8.JPG", alt: "Memory", rotate: 5, x: "3%", y: "65%", width: "220px" },
-  { src: "/images/fotoenjoy/99420135-f1dc-4be3-bfa0-f072aebcef56.JPG", alt: "Memory", rotate: -12, x: "58%", y: "75%", width: "240px" },
-  { src: "/images/fotoenjoy/13dd1a41-5183-4e2e-b4e5-aeda1dfa590c.JPG", alt: "Memory", rotate: 10, x: "15%", y: "82%", width: "230px" },
+  { src: "/images/fotoenjoy/11c638d5-0910-44bc-bd98-c583372115d3.jpg", side: "left", top: "0%", inset: "0%", width: "228px", rotate: -8 },
+  { src: "/images/fotoenjoy/2fe2145c-df06-40ea-a698-bc3d2049b417.jpg", side: "right", top: "3%", inset: "2%", width: "212px", rotate: 7 },
+  { src: "/images/fotoenjoy/62e69552-a445-435a-8326-144f35f4a8a1.JPG", side: "left", top: "25%", inset: "4%", width: "204px", rotate: 6 },
+  { src: "/images/fotoenjoy/78682475-68db-4772-af7b-c12c9437d4b3.JPG", side: "right", top: "29%", inset: "0%", width: "228px", rotate: -6 },
+  { src: "/images/fotoenjoy/8b073779-edf9-480d-8143-e90e24c44e66.JPG", side: "left", top: "51%", inset: "1%", width: "218px", rotate: -5 },
+  { src: "/images/fotoenjoy/9458c31d-61c8-4054-b0c1-551b6e766fc8.JPG", side: "right", top: "55%", inset: "3%", width: "204px", rotate: 8 },
+  { src: "/images/fotoenjoy/99420135-f1dc-4be3-bfa0-f072aebcef56.JPG", side: "left", top: "75%", inset: "3%", width: "208px", rotate: 9 },
+  { src: "/images/fotoenjoy/13dd1a41-5183-4e2e-b4e5-aeda1dfa590c.JPG", side: "right", top: "78%", inset: "1%", width: "222px", rotate: -7 },
 ];
+
+// Rotasi awal animasi masuk — dulu pakai Math.random() jadi beda tiap muat.
+// Dibikin tetap biar tampilannya sama terus.
+const entryTwist = [12, -9, 14, -11, 8, -13, 10, -7];
 
 export default function Ending() {
   const sectionRef = useRef(null);
@@ -19,56 +26,47 @@ export default function Ending() {
   const endTextRef = useRef(null);
   const photoRefs = useRef([]);
 
-  useGSAP(() => {
-    // Animate scattered photos
-    photoRefs.current.forEach((photo, index) => {
-      if (photo) {
+  useGSAP(
+    () => {
+      photoRefs.current.forEach((photo, index) => {
+        if (!photo) return;
         gsap.from(photo, {
           scale: 0,
           opacity: 0,
-          rotation: scatteredPhotos[index].rotate + (Math.random() * 30 - 15),
+          rotation: scatteredPhotos[index].rotate + entryTwist[index],
           duration: 0.8,
           ease: "back.out(1.4)",
-          delay: 0.1 * index,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
+          delay: 0.08 * index,
+          scrollTrigger: { trigger: sectionRef.current, start: "top 70%" },
         });
-      }
-    });
+      });
 
-    // Animate paper note
-    gsap.from(paperRef.current, {
-      scale: 0.8,
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      ease: "power3.out",
-      delay: 0.5,
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 60%",
-      },
-    });
+      gsap.from(paperRef.current, {
+        scale: 0.9,
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: paperRef.current, start: "top 85%" },
+      });
 
-    // Animate END text
-    gsap.from(endTextRef.current, {
-      x: -100,
-      opacity: 0,
-      duration: 1.2,
-      ease: "power4.out",
-      delay: 0.8,
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 50%",
-      },
-    });
-  }, { scope: sectionRef });
+      gsap.from(endTextRef.current, {
+        y: 60,
+        opacity: 0,
+        duration: 1.1,
+        ease: "power4.out",
+        scrollTrigger: { trigger: endTextRef.current, start: "top 88%" },
+      });
+    },
+    { scope: sectionRef }
+  );
 
   return (
-    <section ref={sectionRef} className="relative bg-gradient-to-b from-amber-900/40 via-amber-800/30 to-black py-0 overflow-hidden min-h-screen">
-      {/* Wood texture background */}
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-gradient-to-b from-amber-900/40 via-amber-800/30 to-black py-20 md:py-28"
+    >
+      {/* Tekstur kayu */}
       <div
         className="absolute inset-0 opacity-30"
         style={{
@@ -77,120 +75,110 @@ export default function Ending() {
         }}
       ></div>
 
-      {/* Wood grain lines */}
+      {/* Serat kayu */}
       <div className="absolute inset-0 opacity-10 bg-[repeating-linear-gradient(90deg,transparent,transparent_30px,rgba(139,90,43,0.3)_30px,rgba(139,90,43,0.3)_31px)]"></div>
 
-      <div className="relative min-h-screen max-w-6xl mx-auto px-4 py-16">
-        {/* Scattered Polaroid Photos */}
+      <div className="relative mx-auto max-w-6xl px-4">
+        {/* Foto pinggir — baru muncul di lg ke atas. Di bawah itu ruang
+            kiri-kanannya ga cukup, jadi fotonya pindah ke grid di bawah. */}
         {scatteredPhotos.map((photo, index) => (
           <div
-            key={index}
+            key={photo.src}
             ref={(el) => (photoRefs.current[index] = el)}
-            className="absolute hidden md:block"
+            className="absolute hidden lg:block"
             style={{
-              left: photo.x,
-              top: photo.y,
+              [photo.side]: photo.inset,
+              top: photo.top,
               width: photo.width,
               zIndex: 10 + index,
             }}
           >
-            {/* Polaroid frame */}
             <div
-              className="bg-white p-2 pb-10 shadow-xl hover:z-50 hover:scale-105 transition-transform duration-300 cursor-pointer"
+              className="relative bg-white p-2 pb-8 shadow-xl transition-transform duration-300 hover:z-50 hover:scale-105"
               style={{ transform: `rotate(${photo.rotate}deg)` }}
             >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                className="w-full h-auto object-cover"
-              />
-              {/* Tape effect */}
-              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-12 h-5 bg-white/60 backdrop-blur-sm rotate-2"></div>
+              <img src={photo.src} alt="" className="h-auto w-full object-cover" />
+              {/* Selotip */}
+              <div className="absolute -top-2 left-1/2 h-5 w-12 -translate-x-1/2 rotate-2 bg-white/60 backdrop-blur-sm"></div>
             </div>
           </div>
         ))}
 
-        {/* Mobile scattered photos */}
-        <div className="md:hidden grid grid-cols-2 gap-3 px-4">
-          {scatteredPhotos.slice(0, 4).map((photo, index) => (
-            <div
-              key={index}
-              className="bg-white p-1.5 pb-6 shadow-xl"
-              style={{ transform: `rotate(${photo.rotate / 2}deg)` }}
-            >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          ))}
-        </div>
+        {/* Kolom tengah — mengalir normal (bukan absolute), jadi catatan,
+            END, dan caption-nya ga mungkin saling nimpa. */}
+        <div className="relative z-30 mx-auto w-full max-w-[26rem]">
+          {/* Kertas catatan */}
+          <div ref={paperRef}>
+            <div className="relative rotate-1 bg-gradient-to-b from-amber-50 to-white p-8 shadow-2xl md:p-10">
+              {/* Garis kertas */}
+              <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(transparent,transparent_27px,#e5d4c1_27px,#e5d4c1_28px)]"></div>
 
-        {/* Center Paper Note */}
-        <div ref={paperRef} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-[340px] md:w-[420px]">
-          {/* Paper */}
-          <div className="relative bg-gradient-to-b from-amber-50 to-white p-8 md:p-10 shadow-2xl rotate-1">
-            {/* Paper texture lines */}
-            <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(transparent,transparent_27px,#e5d4c1_27px,#e5d4c1_28px)]"></div>
+              <div className="relative z-10">
+                <h3 className="mb-6 text-center font-['Caveat',_cursive] text-2xl text-red-700 md:text-3xl">
+                  Long Time with Them
+                </h3>
 
-            {/* Content */}
-            <div className="relative z-10">
-              <h3 className="font-['Caveat',_cursive] text-2xl md:text-3xl text-red-700 mb-6 text-center">
-                Long Time with Them
-              </h3>
-
-              <div className="font-['Caveat',_cursive] text-base md:text-lg text-gray-800 leading-relaxed space-y-4">
-                <p>
-                  It's not just about the work program, but a small journey full of meaning.
-                  Mornings full of energy, exhausting afternoons, and evenings filled with
-                  stories and laughter.
-                </p>
-                <p className="italic">
-                  We came as strangers, but we leave as family.
-                </p>
-                <p>
-                  Thank you MSDI, you have become part of a beautiful story
-                  that will always be remembered. MSDI may end, but this story
-                  will never finish.
-                </p>
+                <div className="space-y-4 font-['Caveat',_cursive] text-base leading-relaxed text-gray-800 md:text-lg">
+                  <p>
+                    It&rsquo;s not just about the work program, but a small journey full of
+                    meaning. Mornings full of energy, exhausting afternoons, and evenings filled
+                    with stories and laughter.
+                  </p>
+                  <p className="italic">We came as strangers, but we leave as family.</p>
+                  <p>
+                    Thank you MSDI, you have become part of a beautiful story that will always be
+                    remembered. MSDI may end, but this story will never finish.
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* Paper corner fold */}
-            <div className="absolute bottom-0 right-0 w-0 h-0 border-b-[40px] border-b-amber-200 border-l-[40px] border-l-transparent"></div>
+              {/* Lipatan pojok */}
+              <div className="absolute bottom-0 right-0 h-0 w-0 border-b-[40px] border-l-[40px] border-b-amber-200 border-l-transparent"></div>
+            </div>
           </div>
 
-          {/* Shadow for paper */}
-          <div className="absolute -bottom-2 left-2 right-2 h-8 bg-black/20 blur-xl rounded-full"></div>
-        </div>
-
-        {/* END Typography */}
-        <div ref={endTextRef} className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-40">
-          <div className="flex items-end gap-2">
-            <span className="text-white text-lg md:text-2xl font-bold tracking-wider mb-6 drop-shadow-lg">HAS</span>
-            <div className="relative">
-              <h1
-                className="text-[100px] md:text-[180px] font-black leading-none tracking-tighter"
-                style={{
-                  color: "white",
-                  textShadow: "4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 6px 20px rgba(0,0,0,0.8)",
-                }}
+          {/* Foto buat layar sempit — di sini fotonya ikut mengalir ke bawah
+              catatan, ga ditumpuk kaya sebelumnya. */}
+          <div className="mt-12 grid grid-cols-2 gap-3 lg:hidden">
+            {scatteredPhotos.slice(0, 4).map((photo) => (
+              <div
+                key={photo.src}
+                className="bg-white p-1.5 pb-6 shadow-xl"
+                style={{ transform: `rotate(${photo.rotate / 2}deg)` }}
               >
-                END
-              </h1>
-            </div>
-            <span className="text-white text-lg md:text-2xl font-bold tracking-wider mb-4 drop-shadow-lg"></span>
+                <img src={photo.src} alt="" className="h-auto w-full object-cover" />
+              </div>
+            ))}
           </div>
-          <p className="text-white text-xs md:text-sm tracking-[0.4em] mt-3 uppercase font-semibold drop-shadow-lg">
-            together with msdi create synergy, collaborate in action.
-            <br />memories of msdi.
-          </p>
+
+          {/* Penutup */}
+          <div ref={endTextRef} className="mt-20 text-center md:mt-24">
+            <p className="font-['Caveat',_cursive] text-3xl leading-none text-white/70 md:text-4xl">
+              The
+            </p>
+            <h2
+              className="text-[5.5rem] font-black leading-[0.85] tracking-tighter text-white md:text-[8rem]"
+              style={{
+                textShadow:
+                  "4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 6px 20px rgba(0,0,0,0.8)",
+              }}
+            >
+              END
+            </h2>
+
+            <div className="mx-auto mt-10 h-px w-24 bg-gradient-to-r from-transparent via-amber-300/60 to-transparent"></div>
+
+            <p className="mt-6 text-[10px] uppercase leading-loose tracking-[0.35em] text-white/60 md:text-xs">
+              Together with MSDI create synergy, collaborate in action.
+              <br />
+              Memories of MSDI.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Vignette effect */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.6)_100%)] pointer-events-none"></div>
+      {/* Vignette */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.6)_100%)]"></div>
     </section>
   );
 }

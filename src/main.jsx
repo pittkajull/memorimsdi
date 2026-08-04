@@ -8,6 +8,7 @@ import Filmstrip from "./filmstrip";
 import Gallery from "./gallery";
 import Timeline from "./timeline";
 import Moments from "./moments";
+import Video from "./video";
 import Ending from "./ending";
 import Footer from "./footer";
 import Particles from "./particles";
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Gallery />
     <Timeline />
     <Moments />
+    <Video />
     <Ending />
     <Footer />
   </React.StrictMode>

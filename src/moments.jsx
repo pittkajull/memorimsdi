@@ -5,40 +5,40 @@ import { useGSAP } from "@gsap/react";
 // TODO: 34 nama + pesan di bawah masih placeholder — ganti sesuai aslinya.
 // Jumlahnya bebas ditambah/dikurangin, pembagian barisnya otomatis.
 const notes = [
-  { text: "kyanya semesta lgi baik bgt waktu mutusin buat mempertemukan aku sma kalian.. beruntung bgt rasanya💗💗  ", from: "Dedep" },
-  { text: "ga nyangka bisa jadi core memory gua", from: "Gisel  " },
-  { text: "MSDI will never be replaced in my heaven 🤍", from: "Nadia" },
-  { text: " ngerasainnya cape sih, cape bgt, nguras energi, tenaga, duit. Tapi kalo disuruh ngulang lagi, GW MAU BGT..", from: "Hira" },
-  { text: "BLACKPINK says in their song Lovesick Girls, “But why we still looking for love?” MSDI is the answer to it, as it was LOoOve!", from: "Arka" },
-  { text: "bersyukur bangettt bisa ketemu dan kenal sama kalian. kapan yaa kita bisa ngerasain momen kayak dulu lagi?", from: "Aziz" },
+  { text: "kyanya semesta lgi baik bgt waktu mutusin buat mempertemukan aku sma kalian.. beruntung bgt rasanya💗💗  ", from: "dedep" },
+  { text: "ga nyangka bisa jadi core memory gua", from: "gisel  " },
+  { text: "MSDI will never be replaced in my heaven 🤍", from: "nadia" },
+  { text: " ngerasainnya cape sih, cape bgt, nguras energi, tenaga, duit. Tapi kalo disuruh ngulang lagi, GW MAU BGT..", from: "hira" },
+  { text: "BLACKPINK says in their song Lovesick Girls, “But why we still looking for love?” MSDI is the answer to it, as it was LOoOve!", from: "arka" },
+  { text: "bersyukur bangettt bisa ketemu dan kenal sama kalian. kapan yaa kita bisa ngerasain momen kayak dulu lagi?", from: "aziz" },
   { text: "so grateful for every little moment, every support, and every laugh we shared. love you msdi!", from: "Zafif" },
-  { text: "Semoga habis ini kita masi suka ngumpul.", from: "eji" },
-  { text: "Kalau bisa diulang, gw mau ulang dari hari pertama.", from: "Yoga" },
-  { text: "Rapat yang ga pernah kelar tepat waktu, tapi kangen juga.", from: "Intan" },
-  { text: "Makasih udah nerima gw yang aneh ini.", from: "Farhan" },
-  { text: "Tiap foto yang keambil ada ceritanya masing-masing.", from: "Gita" },
-  { text: "Banyak yang berubah, tapi kalian tetep sama.", from: "Adit" },
-  { text: "Ternyata bisa senyaman ini sama orang yang dulu asing.", from: "Kayla" },
-  { text: "Sampai ketemu di versi kita yang lebih gede nanti.", from: "Bima" },
-  { text: "Deadline bareng-bareng ternyata lebih ringan.", from: "Zahra" },
-  { text: "Yang bikin betah bukan kegiatannya, tapi orangnya.", from: "Reza" },
-  { text: "Makasih udah nemenin dari pagi sampe malem.", from: "Tsania" },
-  { text: "Ga ada yang sempurna, tapi semuanya berkesan.", from: "Ilham" },
-  { text: "Kalau lagi capek, gw inget-inget ketawa kalian.", from: "Mira" },
-  { text: "Sedih, tapi bangga pernah jadi bagian dari ini.", from: "Daffa" },
-  { text: "Semua drama kecil itu sekarang jadi lucu.", from: "Nayla" },
-  { text: "Makasih ilmunya, makasih ketawanya.", from: "Arif" },
-  { text: "Pengen bilang makasih ke semuanya satu-satu.", from: "Selma" },
-  { text: "Yang penting kita pernah usaha bareng.", from: "Galih" },
-  { text: "Tempat paling rame yang malah bikin tenang.", from: "Dinda" },
-  { text: "Ga banyak kata, cuma makasih banyak.", from: "Rafi" },
-  { text: "Semoga kita ketemu lagi di jalan masing-masing.", from: "Anisa" },
-  { text: "Satu-satunya grup yang notifnya ga gw mute.", from: "Hafiz" },
-  { text: "Makasih udah bikin tahun ini ga sepi.", from: "Putri" },
-  { text: "Kerja keras kalian keliatan, semuanya.", from: "Sultan" },
-  { text: "Yang terbaik bukan hasilnya, tapi prosesnya bareng kalian.", from: "Laras" },
-  { text: "Nanti kalau ketemu di jalan, jangan lupa nyapa ya.", from: "Fikri" },
-  { text: "Terima kasih buat semua yang ga bisa gw tulis di sini.", from: "Cinta" },
+  { text: "ikan hiu makan tomat, miss y'all so much", from: "eji" },
+  { text: "my home, terima kasih sudah menjadi rumah untuk bertumbuh. 🤍", from: "caday" },
+  { text: "kangen gimmick surprise setiap ulang tahun pls", from: "augie" },
+  { text: "not everyone is meant to stay, but thank you for making the time we had meaningful🤍", from: "afifah" },
+  { text: "once something i never expected, yet it become my biggest heartbreak ever", from: "farrel" },
+  { text: "thank you udh hadir di kehidupan ini, bakal terus kangen tiap momen dan canda tawa di msdi. MSDI bon appétit !!!!", from: "rafli" },
+  { text: "haii my forever home msdi 🤍 i miss u guys banget ayoo main lagi jangan jadi orang asing dong", from: "cheryl" },
+  { text: "jangan lupa bersyukur atas jalan yang kalian ambil", from: "reju" },
+  { text: "huft, kalo disuruh ngulang berkali” pun aku juga mau bareng” terus🤭🫰🏻", from: "ale" },
+  { text: "ga ada kata nyesel karena udah milih MSDI, mau banget kalo bisa ngulang di MSDI lagi, luv u sekebon MSDI :>", from: "rifandi" },
+  // { text: "Makasih udah nemenin dari pagi sampe malem.", from: "Tsania" },
+  // { text: "Ga ada yang sempurna, tapi semuanya berkesan.", from: "Ilham" },
+  // { text: "Kalau lagi capek, gw inget-inget ketawa kalian.", from: "Mira" },
+  // { text: "Sedih, tapi bangga pernah jadi bagian dari ini.", from: "Daffa" },
+  // { text: "Semua drama kecil itu sekarang jadi lucu.", from: "Nayla" },
+  // { text: "Makasih ilmunya, makasih ketawanya.", from: "Arif" },
+  // { text: "Pengen bilang makasih ke semuanya satu-satu.", from: "Selma" },
+  // { text: "Yang penting kita pernah usaha bareng.", from: "Galih" },
+  // { text: "Tempat paling rame yang malah bikin tenang.", from: "Dinda" },
+  // { text: "Ga banyak kata, cuma makasih banyak.", from: "Rafi" },
+  // { text: "Semoga kita ketemu lagi di jalan masing-masing.", from: "Anisa" },
+  // { text: "Satu-satunya grup yang notifnya ga gw mute.", from: "Hafiz" },
+  // { text: "Makasih udah bikin tahun ini ga sepi.", from: "Putri" },
+  // { text: "Kerja keras kalian keliatan, semuanya.", from: "Sultan" },
+  // { text: "Yang terbaik bukan hasilnya, tapi prosesnya bareng kalian.", from: "Laras" },
+  // { text: "Nanti kalau ketemu di jalan, jangan lupa nyapa ya.", from: "Fikri" },
+  // { text: "Terima kasih buat semua yang ga bisa gw tulis di sini.", from: "Cinta" },
 ];
 
 // Semua nilai sebaran deterministik — biar ga geser-geser tiap re-render
@@ -61,9 +61,13 @@ function Note({ note, index }) {
   const tapeTilt = tapeTilts[index % tapeTilts.length];
   const stampTilt = stampTilts[index % stampTilts.length];
 
-  // Foto yang filenya belum ada bakal gagal load -> disembunyiin,
-  // biar ga ada ikon gambar rusak di kartunya
-  const [hasAvatar, setHasAvatar] = useState(true);
+  // Foto yang filenya belum ada bakal gagal load -> disembunyiin, biar ga ada
+  // ikon gambar rusak di kartunya. Yang disimpen path yang gagal (bukan
+  // true/false) supaya begitu nama/path-nya berubah, fotonya dicoba lagi —
+  // kalau pakai boolean, sekali gagal bakal nyangkut sampai halaman di-reload.
+  const src = avatarSrc(note.from);
+  const [failedSrc, setFailedSrc] = useState(null);
+  const hasAvatar = failedSrc !== src;
 
   return (
     // Lebar dipatok biar tinggi barisnya rata dan jalannya mulus
@@ -109,17 +113,25 @@ function Note({ note, index }) {
 
         {/* Kolom foto — rata bawah, sedikit lewat tepi kanan & bawah kertas.
             drop-shadow (bukan box-shadow) biar bayangannya ngikut bentuk
-            orangnya, bukan ngikut kotak gambarnya. */}
+            orangnya, bukan ngikut kotak gambarnya.
+
+            Patokan ukurannya LEBAR, bukan tinggi. Rasio tiap foto beda-beda:
+            ada yang jangkung (eji, farrel), ada yang melebar (dedep, arka,
+            nadia). Kalau tingginya yang dikunci, yang melebar bakal kejepit
+            max-width dan ngecil sendiri. Dipatok lebar, besar mukanya jadi
+            seragam di semua kartu — soalnya di potongan sebahu, lebar foto
+            kira-kira sebanding sama lebar mukanya. max-h cuma rem darurat
+            biar foto yang jangkung banget ga bikin kartunya jangkung juga. */}
         {hasAvatar && (
           <div className="-mb-6 -mr-3 flex shrink-0 items-end">
             <img
-              src={avatarSrc(note.from)}
+              src={src}
               alt={note.from.trim()}
-              onError={() => setHasAvatar(false)}
-              className="h-[8.5rem] w-auto max-w-[6rem] origin-bottom object-contain object-bottom
+              onError={() => setFailedSrc(src)}
+              className="h-auto w-[6.5rem] max-h-[9.5rem] origin-bottom object-contain object-bottom
                          drop-shadow-[0_4px_10px_rgba(0,0,0,0.35)]
                          transition-transform duration-500 ease-out group-hover:scale-[1.06]
-                         md:h-[9.5rem] md:max-w-[7rem]"
+                         md:w-[7.5rem] md:max-h-[10.5rem]"
               style={{ transform: `rotate(${stampTilt / 3}deg)` }}
             />
           </div>
