@@ -12,6 +12,7 @@ import Video from "./video";
 import Ending from "./ending";
 import Footer from "./footer";
 import Particles from "./particles";
+import Music from "./music";
 import "./index.css";
 
 // Register GSAP plugins
@@ -31,5 +32,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Video />
     <Ending />
     <Footer />
+    <Music />
   </React.StrictMode>
 );

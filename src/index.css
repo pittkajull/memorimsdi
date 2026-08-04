@@ -183,6 +183,18 @@ body {
   }
 }
 
+/* Batang penyetara di tombol lagu — tiap batang dikasih delay beda
+   biar naik-turunnya ga serempak */
+@keyframes eq {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
 /* Parallax layers */
 .parallax-layer {
   position: absolute;
