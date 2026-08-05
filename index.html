@@ -1,16 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MEMORI MSDI</title>
+
+    <title>Memori MSDI — Kenangan Kita Bersama</title>
+    <meta
+      name="description"
+      content="Memori MSDI: galeri kenangan, foto, dan cerita perjalanan kita bersama di MSDI. Simpan dan kenang setiap momen berharga di sini."
+    />
+    <link rel="canonical" href="https://memorimsdi.my.id/" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Preview pas link-nya dibagiin di WhatsApp, Instagram, Discord, dll. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Memori MSDI" />
+    <meta property="og:title" content="Memori MSDI — Kenangan Kita Bersama" />
+    <meta
+      property="og:description"
+      content="Galeri kenangan, foto, dan cerita perjalanan kita bersama di MSDI."
+    />
+    <meta property="og:url" content="https://memorimsdi.my.id/" />
+    <meta property="og:image" content="https://memorimsdi.my.id/images/potostudio/main.webp" />
+    <meta property="og:locale" content="id_ID" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Memori MSDI — Kenangan Kita Bersama" />
+    <meta
+      name="twitter:description"
+      content="Galeri kenangan, foto, dan cerita perjalanan kita bersama di MSDI."
+    />
+    <meta name="twitter:image" content="https://memorimsdi.my.id/images/potostudio/main.webp" />
+
     <link rel="icon" type="image/svg+xml" href="/images/logomsdi.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Buat Google: ngasih tau ini situs apa dan namanya apa. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Memori MSDI",
+        "url": "https://memorimsdi.my.id/",
+        "description": "Galeri kenangan, foto, dan cerita perjalanan kita bersama di MSDI.",
+        "inLanguage": "id"
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Situs ini isinya React, jadi tanpa JavaScript halamannya kosong.
+         Google udah bisa jalanin JS, tapi crawler lain belum tentu — jadi
+         teks intinya ditaro di sini sebagai cadangan. -->
+    <noscript>
+      <h1>Memori MSDI</h1>
+      <p>
+        Memori MSDI adalah galeri kenangan berisi foto, cerita, dan momen
+        perjalanan kita bersama di MSDI. Aktifkan JavaScript untuk melihat
+        galeri lengkapnya.
+      </p>
+    </noscript>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
