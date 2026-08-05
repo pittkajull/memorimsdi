@@ -1,10 +1,14 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import DomeGallery from "./domegallery";
+import UploadPhoto from "./uploadphoto";
 
-// Semuanya .webp hasil `node scripts/optimize-images.mjs`. File JPG aslinya
-// masih ada di folder yang sama sebagai cadangan, tapi ga ikut kepake/kekirim.
+// Foto bawaan. Semuanya .webp hasil `node scripts/optimize-images.mjs`.
+// File JPG aslinya ada di _originals/ sebagai cadangan, ga ikut ke-deploy.
+//
+// Foto kiriman orang ga ditulis di sini — dia diambil dari /api/photos pas
+// halaman kebuka, terus ditempel di depan daftar ini (lihat di bawah).
 const photos = [
   "/images/fotoenjoy/01d0a3cd-ffcb-4bdd-8515-263beed9439d.webp",
   "/images/fotoenjoy/04562e0b-058c-497e-abe1-09b545272053.webp",
@@ -74,6 +78,26 @@ export default function Gallery() {
   const titleRef = useRef(null);
   const domeRef = useRef(null);
 
+  // Foto kiriman. Awalnya kosong, diisi abis /api/photos jawab — jadi galeri
+  // langsung nampil pake foto bawaan tanpa nungguin jaringan.
+  const [uploaded, setUploaded] = useState([]);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/photos")
+      .then((r) => (r.ok ? r.json() : { photos: [] }))
+      .then((d) => alive && setUploaded(d.photos.map((p) => p.url)))
+      // Kalau API-nya mati atau lagi jalan di `vite dev` (yang ga punya
+      // serverless function), diem aja — foto bawaan tetep jalan normal.
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  // Yang baru dikirim ditaro paling depan biar keliatan duluan.
+  const allPhotos = [...uploaded, ...photos];
+
   useGSAP(() => {
     // Title animation
     gsap.from(titleRef.current.children, {
@@ -132,7 +156,7 @@ export default function Gallery() {
           className="relative w-screen ml-[calc(50%-50vw)] h-[80vh] md:h-[95vh] overflow-hidden"
         >
           <DomeGallery
-            images={photos}
+            images={allPhotos}
             fit={0.82}
             fitBasis="width"
             minRadius={620}
@@ -151,6 +175,14 @@ export default function Gallery() {
         <p className="mt-6 text-center text-white/30 text-xs tracking-[0.2em] uppercase">
           Drag to explore &middot; Click a photo to enlarge
         </p>
+
+        {/* Tombol upload. Foto yang baru masuk langsung ditempel ke state,
+            jadi galerinya keisi tanpa perlu refresh. */}
+        <div className="mt-8 flex justify-center">
+          <UploadPhoto
+            onUploaded={(urls) => setUploaded((prev) => [...urls, ...prev])}
+          />
+        </div>
 
         {/* Bottom quote */}
         <div className="mt-20 text-center">
