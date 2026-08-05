@@ -15,7 +15,7 @@ const ALLOWED = new Set(["image/webp", "image/jpeg", "image/png"]);
 
 export default async function handler(request) {
   if (request.method !== "POST") {
-    return json({ error: "Method ga didukung." }, 405);
+    return json({ error: "Method not allowed." }, 405);
   }
 
   const denied = checkPassword(request, "UPLOAD_PASSWORD");
@@ -26,17 +26,17 @@ export default async function handler(request) {
     const form = await request.formData();
     file = form.get("file");
   } catch {
-    return json({ error: "Data kiriman rusak." }, 400);
+    return json({ error: "Malformed request." }, 400);
   }
 
   if (!file || typeof file === "string") {
-    return json({ error: "Fotonya ga kekirim." }, 400);
+    return json({ error: "No photo received." }, 400);
   }
   if (!ALLOWED.has(file.type)) {
-    return json({ error: "Filenya harus gambar (webp/jpg/png)." }, 415);
+    return json({ error: "File must be an image (webp/jpg/png)." }, 415);
   }
   if (file.size > MAX_BYTES) {
-    return json({ error: "Fotonya kegedean." }, 413);
+    return json({ error: "Photo is too large." }, 413);
   }
 
   try {
@@ -51,6 +51,6 @@ export default async function handler(request) {
     return json({ url: blob.url, pathname: blob.pathname }, 201);
   } catch (err) {
     console.error("Gagal simpen foto:", err);
-    return json({ error: "Gagal nyimpen di server." }, 500);
+    return json({ error: "Could not save the photo." }, 500);
   }
 }

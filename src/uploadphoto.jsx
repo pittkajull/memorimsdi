@@ -36,7 +36,7 @@ export default function UploadPhoto({ onUploaded }) {
   const pickFiles = (list) => {
     const picked = Array.from(list).filter((f) => f.type.startsWith("image/"));
     if (!picked.length) {
-      setError("Pilih file gambar ya.");
+      setError("Please pick image files.");
       return;
     }
     setError("");
@@ -52,8 +52,8 @@ export default function UploadPhoto({ onUploaded }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!code.trim()) return setError("Kodenya diisi dulu.");
-    if (!files.length) return setError("Pilih fotonya dulu.");
+    if (!code.trim()) return setError("Enter the code first.");
+    if (!files.length) return setError("Pick some photos first.");
 
     setBusy(true);
     setError("");
@@ -76,7 +76,7 @@ export default function UploadPhoto({ onUploaded }) {
         });
 
         const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.error || "Gagal ngirim foto.");
+        if (!res.ok) throw new Error(data.error || "Upload failed.");
 
         urls.push(data.url);
         setDone((n) => n + 1);
@@ -103,7 +103,7 @@ export default function UploadPhoto({ onUploaded }) {
         <span className="text-lg leading-none text-amber-500/70 transition group-hover:rotate-90 group-hover:text-amber-400">
           +
         </span>
-        Tambahin fotomu
+        Add your photo
       </button>
 
       {open && (
@@ -116,14 +116,14 @@ export default function UploadPhoto({ onUploaded }) {
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-md rounded-2xl border border-white/10 bg-zinc-950 p-6 shadow-2xl"
           >
-            <h3 className="text-xl font-bold text-white">Tambahin foto</h3>
+            <h3 className="text-xl font-bold text-white">Add your photo</h3>
             <p className="mt-1.5 text-sm text-white/40">
-              Butuh kode dari admin. Fotonya otomatis dikecilin dulu, jadi
-              santai kalau filenya gede.
+              You&apos;ll need the code from the admin. Photos are resized
+              automatically, so big files are fine.
             </p>
 
             <label className="mt-5 block text-xs uppercase tracking-wider text-white/40">
-              Kode
+              Code
             </label>
             <input
               type="password"
@@ -132,11 +132,11 @@ export default function UploadPhoto({ onUploaded }) {
               autoComplete="off"
               disabled={busy}
               className="mt-1.5 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-white outline-none transition placeholder:text-white/25 focus:border-amber-500/50 disabled:opacity-50"
-              placeholder="Masukin kodenya"
+              placeholder="Enter the code"
             />
 
             <label className="mt-4 block text-xs uppercase tracking-wider text-white/40">
-              Foto <span className="normal-case tracking-normal">(maks {MAX_FILES})</span>
+              Photos <span className="normal-case tracking-normal">(max {MAX_FILES})</span>
             </label>
             <input
               ref={inputRef}
@@ -150,8 +150,8 @@ export default function UploadPhoto({ onUploaded }) {
 
             {files.length > 0 && (
               <p className="mt-2 text-xs text-white/40">
-                {files.length} foto kepilih
-                {busy && ` · ${done}/${files.length} kekirim`}
+                {files.length} photo{files.length > 1 ? "s" : ""} selected
+                {busy && ` · ${done}/${files.length} uploaded`}
               </p>
             )}
 
@@ -168,14 +168,14 @@ export default function UploadPhoto({ onUploaded }) {
                 disabled={busy}
                 className="flex-1 rounded-lg border border-white/10 px-4 py-2.5 text-sm text-white/60 transition hover:bg-white/5 disabled:opacity-40"
               >
-                Batal
+                Cancel
               </button>
               <button
                 type="submit"
                 disabled={busy}
                 className="flex-1 rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-amber-400 disabled:opacity-40"
               >
-                {busy ? "Ngirim…" : "Kirim"}
+                {busy ? "Uploading…" : "Upload"}
               </button>
             </div>
           </form>

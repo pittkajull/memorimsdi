@@ -30,14 +30,14 @@ export function checkPassword(request, envName) {
 
   if (!expected) {
     return json(
-      { error: `Server belum diset (${envName} kosong di Vercel).` },
+      { error: `Server is not configured (${envName} is missing).` },
       500
     );
   }
 
   const given = request.headers.get("x-access-code") ?? "";
   if (!sameSecret(given, expected)) {
-    return json({ error: "Kode salah." }, 401);
+    return json({ error: "Wrong code." }, 401);
   }
 
   return null;

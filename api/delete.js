@@ -10,7 +10,7 @@ import { json, checkPassword } from "./_auth.js";
 
 export default async function handler(request) {
   if (request.method !== "POST") {
-    return json({ error: "Method ga didukung." }, 405);
+    return json({ error: "Method not allowed." }, 405);
   }
 
   const denied = checkPassword(request, "ADMIN_PASSWORD");
@@ -20,11 +20,11 @@ export default async function handler(request) {
   try {
     ({ url } = await request.json());
   } catch {
-    return json({ error: "Data kiriman rusak." }, 400);
+    return json({ error: "Malformed request." }, 400);
   }
 
   if (typeof url !== "string" || !url) {
-    return json({ error: "URL fotonya ga ada." }, 400);
+    return json({ error: "Missing photo URL." }, 400);
   }
 
   try {
@@ -32,6 +32,6 @@ export default async function handler(request) {
     return json({ ok: true });
   } catch (err) {
     console.error("Gagal hapus foto:", err);
-    return json({ error: "Gagal ngapus." }, 500);
+    return json({ error: "Could not delete." }, 500);
   }
 }
