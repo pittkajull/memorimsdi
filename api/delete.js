@@ -18,6 +18,12 @@ export default async function handler(req, res) {
     return sendJson(res, { error: "Missing photo URL." }, 400);
   }
 
+  // Cuma boleh ngapus yang ada di folder kiriman/ — biar ga ada cara
+  // buat ngapus isi Blob store yang lain lewat endpoint ini.
+  if (!url.includes("/kiriman/")) {
+    return sendJson(res, { error: "That photo cannot be deleted." }, 400);
+  }
+
   try {
     await del(url);
     return sendJson(res, { ok: true });
