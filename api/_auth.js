@@ -26,7 +26,9 @@ function sameSecret(a, b) {
 
 // Balikin null kalau lolos, atau Response error kalau ditolak.
 export function checkPassword(request, envName) {
-  const expected = process.env[envName];
+  // Di-trim karena nge-paste nilai ke dashboard Vercel gampang kebawa spasi
+  // atau enter di ujung — kalau ga dibuang, kode yang bener pun ketolak.
+  const expected = process.env[envName]?.trim();
 
   if (!expected) {
     return json(
@@ -35,7 +37,7 @@ export function checkPassword(request, envName) {
     );
   }
 
-  const given = request.headers.get("x-access-code") ?? "";
+  const given = (request.headers.get("x-access-code") ?? "").trim();
   if (!sameSecret(given, expected)) {
     return json({ error: "Wrong code." }, 401);
   }
