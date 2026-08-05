@@ -1,0 +1,7 @@
+# File yang ga perlu ikut naik ke Vercel pas build.
+#
+# _originals/ isinya foto JPG/PNG mentahan — cuma dipakai lokal buat bikin
+# .webp lewat scripts/optimize-images.mjs. Ga pernah dibaca pas build, jadi
+# ga ada gunanya ikut ke-upload.
+_originals/
+public/video/
