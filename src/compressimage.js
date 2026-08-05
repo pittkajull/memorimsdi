@@ -22,7 +22,7 @@ function loadImage(file) {
     };
     img.onerror = () => {
       URL.revokeObjectURL(url);
-      reject(new Error("Fotonya ga kebaca. Coba foto lain."));
+      reject(new Error("Could not read the photo. Try a different one."));
     };
     img.src = url;
   });
@@ -55,6 +55,14 @@ export async function compressImage(file) {
     canvas.toBlob(resolve, "image/webp", QUALITY)
   );
 
-  if (!blob) throw new Error("Gagal ngompres fotonya.");
-  return blob;
+  if (!blob) throw new Error("Could not compress the photo.");
+
+  // Dikirim sebagai data URL (teks) biar bisa masuk ke body JSON biasa.
+  // Multipart/form-data butuh parser tambahan di server dan gampang rusak.
+  return await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("Could not read the photo."));
+    reader.readAsDataURL(blob);
+  });
 }

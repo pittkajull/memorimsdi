@@ -3,35 +3,26 @@
 // ga bisa ngapus.
 
 import { del } from "@vercel/blob";
-import { json, checkPassword } from "./_auth.js";
+import { sendJson, checkPassword, readJsonBody } from "./_auth.js";
 
-// Runtime-nya Node (default), bukan Edge — @vercel/blob butuh modul bawaan
-// Node yang ga ada di Edge, jadi kalau dipaksa Edge build-nya gagal.
-
-export default async function handler(request) {
-  if (request.method !== "POST") {
-    return json({ error: "Method not allowed." }, 405);
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return sendJson(res, { error: "Method not allowed." }, 405);
   }
 
-  const denied = checkPassword(request, "ADMIN_PASSWORD");
-  if (denied) return denied;
+  if (!checkPassword(req, res, "ADMIN_PASSWORD")) return;
 
-  let url;
-  try {
-    ({ url } = await request.json());
-  } catch {
-    return json({ error: "Malformed request." }, 400);
-  }
+  const { url } = readJsonBody(req);
 
   if (typeof url !== "string" || !url) {
-    return json({ error: "Missing photo URL." }, 400);
+    return sendJson(res, { error: "Missing photo URL." }, 400);
   }
 
   try {
     await del(url);
-    return json({ ok: true });
+    return sendJson(res, { ok: true });
   } catch (err) {
     console.error("Gagal hapus foto:", err);
-    return json({ error: "Could not delete." }, 500);
+    return sendJson(res, { error: "Could not delete." }, 500);
   }
 }

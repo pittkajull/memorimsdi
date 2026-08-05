@@ -2,11 +2,9 @@
 // nampilin foto tambahan di samping foto bawaan.
 
 import { list } from "@vercel/blob";
-import { json } from "./_auth.js";
+import { sendJson } from "./_auth.js";
 
-// Runtime-nya Node (default), bukan Edge — lihat catatan di api/delete.js.
-
-export default async function handler() {
+export default async function handler(req, res) {
   try {
     const { blobs } = await list({ prefix: "kiriman/", limit: 1000 });
 
@@ -19,11 +17,11 @@ export default async function handler() {
         uploadedAt: b.uploadedAt,
       }));
 
-    return json({ photos });
+    return sendJson(res, { photos });
   } catch (err) {
     // Kalau Blob store belum dibikin, jangan bikin galeri ikut mati —
     // balikin kosong aja, foto bawaan tetep tampil.
     console.error("Gagal baca daftar foto:", err);
-    return json({ photos: [] });
+    return sendJson(res, { photos: [] });
   }
 }

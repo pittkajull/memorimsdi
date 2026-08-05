@@ -64,19 +64,23 @@ export default function UploadPhoto({ onUploaded }) {
       // Satu-satu, bukan sekaligus. Lebih pelan tapi ga bikin koneksi HP
       // keteteran, dan progresnya keliatan jelas.
       for (const file of files) {
-        const compressed = await compressImage(file);
-
-        const body = new FormData();
-        body.append("file", compressed, "foto.webp");
+        const image = await compressImage(file);
 
         const res = await fetch("/api/upload", {
           method: "POST",
-          headers: { "x-access-code": code.trim() },
-          body,
+          headers: {
+            "content-type": "application/json",
+            "x-access-code": code.trim(),
+          },
+          body: JSON.stringify({ image }),
         });
 
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.error || "Upload failed.");
+        // Kalau function-nya crash, yang balik itu halaman error HTML —
+        // bukan JSON. Statusnya ditempel ke pesan biar ketauan bedanya.
+        const data = await res.json().catch(() => null);
+        if (!res.ok || !data) {
+          throw new Error(data?.error || `Upload failed (${res.status}).`);
+        }
 
         urls.push(data.url);
         setDone((n) => n + 1);
