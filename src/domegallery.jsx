@@ -45,8 +45,8 @@ function buildItems(pool, seg) {
   }
 
   const normalizedImages = pool.map((image) => {
-    if (typeof image === "string") return { src: image, alt: "Kenangan MSDI" };
-    return { src: image.src || "", alt: image.alt || "Kenangan MSDI" };
+    if (typeof image === "string") return { src: image, alt: "MSDI memory" };
+    return { src: image.src || "", alt: image.alt || "MSDI memory" };
   });
 
   const usedImages = Array.from(

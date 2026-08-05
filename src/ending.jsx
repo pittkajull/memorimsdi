@@ -109,7 +109,7 @@ export default function Ending() {
               className="relative bg-white p-2 pb-8 shadow-xl transition-transform duration-300 hover:z-50 hover:scale-105"
               style={{ transform: `rotate(${photo.rotate}deg)` }}
             >
-              <img src={photo.src} alt="Kenangan MSDI" className="h-auto w-full object-cover" />
+              <img src={photo.src} alt="MSDI memory" className="h-auto w-full object-cover" />
               {/* Selotip */}
               <div className="absolute -top-2 left-1/2 h-5 w-12 -translate-x-1/2 rotate-2 bg-white/60 backdrop-blur-sm"></div>
             </div>
@@ -158,7 +158,7 @@ export default function Ending() {
                 className="bg-white p-1.5 pb-6 shadow-xl"
                 style={{ transform: `rotate(${photo.rotate / 2}deg)` }}
               >
-                <img src={photo.src} alt="Kenangan MSDI" className="h-auto w-full object-cover" />
+                <img src={photo.src} alt="MSDI memory" className="h-auto w-full object-cover" />
               </div>
             ))}
           </div>
