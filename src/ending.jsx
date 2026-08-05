@@ -10,14 +10,14 @@ import { useGSAP } from "@gsap/react";
 // dari tinggi container, tapi tinggi container-nya sendiri nyesuain isi. Pakai
 // piksel jadi pasti, dan gampang dicocokin sama MIN_STAGE_HEIGHT di bawah.
 const scatteredPhotos = [
-  { src: "/images/fotoenjoy/11c638d5-0910-44bc-bd98-c583372115d3.jpg", side: "left", top: 0, inset: "0%", width: 228, rotate: -8 },
-  { src: "/images/fotoenjoy/2fe2145c-df06-40ea-a698-bc3d2049b417.jpg", side: "right", top: 30, inset: "2%", width: 212, rotate: 7 },
-  { src: "/images/fotoenjoy/62e69552-a445-435a-8326-144f35f4a8a1.JPG", side: "left", top: 255, inset: "4%", width: 204, rotate: 6 },
-  { src: "/images/fotoenjoy/78682475-68db-4772-af7b-c12c9437d4b3.JPG", side: "right", top: 290, inset: "0%", width: 228, rotate: -6 },
-  { src: "/images/fotoenjoy/8b073779-edf9-480d-8143-e90e24c44e66.JPG", side: "left", top: 515, inset: "1%", width: 218, rotate: -5 },
-  { src: "/images/fotoenjoy/9458c31d-61c8-4054-b0c1-551b6e766fc8.JPG", side: "right", top: 550, inset: "3%", width: 204, rotate: 8 },
-  { src: "/images/fotoenjoy/99420135-f1dc-4be3-bfa0-f072aebcef56.JPG", side: "left", top: 770, inset: "3%", width: 208, rotate: 9 },
-  { src: "/images/fotoenjoy/13dd1a41-5183-4e2e-b4e5-aeda1dfa590c.JPG", side: "right", top: 805, inset: "1%", width: 222, rotate: -7 },
+  { src: "/images/fotoenjoy/11c638d5-0910-44bc-bd98-c583372115d3.webp", side: "left", top: 0, inset: "0%", width: 228, rotate: -8 },
+  { src: "/images/fotoenjoy/2fe2145c-df06-40ea-a698-bc3d2049b417.webp", side: "right", top: 30, inset: "2%", width: 212, rotate: 7 },
+  { src: "/images/fotoenjoy/62e69552-a445-435a-8326-144f35f4a8a1.webp", side: "left", top: 255, inset: "4%", width: 204, rotate: 6 },
+  { src: "/images/fotoenjoy/78682475-68db-4772-af7b-c12c9437d4b3.webp", side: "right", top: 290, inset: "0%", width: 228, rotate: -6 },
+  { src: "/images/fotoenjoy/8b073779-edf9-480d-8143-e90e24c44e66.webp", side: "left", top: 515, inset: "1%", width: 218, rotate: -5 },
+  { src: "/images/fotoenjoy/9458c31d-61c8-4054-b0c1-551b6e766fc8.webp", side: "right", top: 550, inset: "3%", width: 204, rotate: 8 },
+  { src: "/images/fotoenjoy/99420135-f1dc-4be3-bfa0-f072aebcef56.webp", side: "left", top: 770, inset: "3%", width: 208, rotate: 9 },
+  { src: "/images/fotoenjoy/13dd1a41-5183-4e2e-b4e5-aeda1dfa590c.webp", side: "right", top: 805, inset: "1%", width: 222, rotate: -7 },
 ];
 
 // Foto paling bawah mulai di 805px dan manjang ke bawah, sementara tinggi

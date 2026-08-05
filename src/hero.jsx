@@ -133,7 +133,7 @@ export default function Hero() {
       {/* Background image with parallax */}
       <div className="absolute inset-0">
         <img
-          src="/images/potostudio/main.JPG"
+          src="/images/potostudio/main.webp"
           alt="Memori MSDI"
           className="absolute inset-0 h-full w-full object-cover object-top"
         />

@@ -25,7 +25,7 @@ const notes = [
   { text: "jujur seru banget, this is definitely the most worthwhile decision I made last year", from: "salma" },
   { text: "Andai aja aku ikut wawancara waktu itu, aku pasti masuk msdi😔", from: "adam" },
   { text: "bersyukur bisa jadi bagian dari MSDI dan selalu ngerasa nyaman karena dikelilingi orang-orang baik 🥺💗", from: "alya" },
-  // { text: "Sedih, tapi bangga pernah jadi bagian dari ini.", from: "Daffa" },
+  { text: "MSDI has given me so many valuable experiences and lifelong memories. Thank you to everyone who made this journey so meaningful🤍", from: "cece" },
   // { text: "Semua drama kecil itu sekarang jadi lucu.", from: "Nayla" },
   // { text: "Makasih ilmunya, makasih ketawanya.", from: "Arif" },
   // { text: "Pengen bilang makasih ke semuanya satu-satu.", from: "Selma" },
@@ -48,12 +48,13 @@ const tapeTilts = [-14, 10, -7, 18, -11, 5];
 const stampTilts = [-8, 6, -5, 9, -7, 4, -6, 8];
 
 // Path foto diturunin dari nama penulis, jadi ga perlu ditulis manual:
-//   "Dedep"   -> /images/fotokartun/dedep.png
-//   "Gisel  " -> /images/fotokartun/gisel.png   (spasi & huruf besar diberesin)
-// Taruh file baru di folder itu, otomatis kepake. Yang belum ada fotonya
+//   "Dedep"   -> /images/fotokartun/dedep.webp
+//   "Gisel  " -> /images/fotokartun/gisel.webp  (spasi & huruf besar diberesin)
+// Taruh PNG-nya di folder itu, terus jalanin `node scripts/optimize-images.mjs`
+// buat bikin .webp-nya — yang dibaca di sini yang .webp. Yang belum ada fotonya
 // ga nampilin apa-apa (lihat onError di bawah).
 const avatarSrc = (from) =>
-  `/images/fotokartun/${from.trim().toLowerCase().replace(/\s+/g, "")}.png`;
+  `/images/fotokartun/${from.trim().toLowerCase().replace(/\s+/g, "")}.webp`;
 
 function Note({ note, index }) {
   const tilt = tilts[index % tilts.length];
