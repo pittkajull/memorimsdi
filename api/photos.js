@@ -4,7 +4,7 @@
 import { list } from "@vercel/blob";
 import { json } from "./_auth.js";
 
-export const config = { runtime: "edge" };
+// Runtime-nya Node (default), bukan Edge — lihat catatan di api/delete.js.
 
 export default async function handler() {
   try {

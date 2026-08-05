@@ -6,7 +6,7 @@
 import { put } from "@vercel/blob";
 import { json, checkPassword } from "./_auth.js";
 
-export const config = { runtime: "edge" };
+// Runtime-nya Node (default), bukan Edge — lihat catatan di api/delete.js.
 
 // Browser udah ngompres ke ~150 KB. 3 MB itu batas jaga-jaga kalau ada yang
 // nembak endpoint-nya langsung tanpa lewat halaman kita.

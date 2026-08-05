@@ -5,7 +5,8 @@
 import { del } from "@vercel/blob";
 import { json, checkPassword } from "./_auth.js";
 
-export const config = { runtime: "edge" };
+// Runtime-nya Node (default), bukan Edge — @vercel/blob butuh modul bawaan
+// Node yang ga ada di Edge, jadi kalau dipaksa Edge build-nya gagal.
 
 export default async function handler(request) {
   if (request.method !== "POST") {
