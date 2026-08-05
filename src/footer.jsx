@@ -36,7 +36,7 @@ export default function Footer() {
           <span className="text-xs tracking-[0.15em]">@memorimsdi</span>
         </a>
 
-        <p className="mt-10 text-[10px] tracking-[0.2em] text-white/15">&copy; 2025 MSDI</p>
+        <p className="mt-10 text-[10px] tracking-[0.2em] text-white/15">&copy; Demisioner MSDI Bon appétit</p>
       </div>
     </footer>
   );
