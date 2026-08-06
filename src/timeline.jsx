@@ -5,17 +5,17 @@ import { useGSAP } from "@gsap/react";
 // Urutan array = urutan tampil: kiri, tengah, kanan.
 const mentors = [
   {
-    name: "Alel",
+    name: "Ka Alel",
     src: "/images/fotokakaks/alel.webp",
     note: "The one who always gave us the most love and care.",
   },
   {
-    name: "Dido",
+    name: "Ka Dido",
     src: "/images/fotokakaks/dido.webp",
     note: "The most patient one, no matter how loud we got.",
   },
   {
-    name: "Naflah",
+    name: "Ka Naflah",
     src: "/images/fotokakaks/naflah.webp",
     note: "The one who kept everything light and warm.",
   },

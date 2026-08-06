@@ -579,14 +579,18 @@ export default function DomeGallery({
           overlay.style.height = `${rect2.height}px`;
           void overlay.offsetWidth; // paksa hitung ulang, biar animasinya jalan
 
-          const centerX = rect2.left + rect2.width / 2;
-          const centerY = rect2.top + rect2.height / 2;
-
           overlay.style.transition = `left ${enlargeTransitionMs}ms ease, top ${enlargeTransitionMs}ms ease, width ${enlargeTransitionMs}ms ease, height ${enlargeTransitionMs}ms ease`;
 
           requestAnimationFrame(() => {
-            overlay.style.left = `${centerX - mainR.left - opened.width / 2}px`;
-            overlay.style.top = `${centerY - mainR.top - opened.height / 2}px`;
+            // Ditaro pas di tengah area globe: sisa ruang kiri-kanan dibagi
+            // dua, sisa ruang atas-bawah dibagi dua. Titik nolnya (0,0) itu
+            // pojok kiri-atas area globe, soalnya overlay-nya nempel di situ.
+            //
+            // Sebelumnya dihitung mundur dari posisi bingkai — hasilnya sama
+            // aja tapi cuma bener selama bingkainya pas di tengah. Diukur
+            // langsung gini ga bisa melenceng.
+            overlay.style.left = `${(mainR.width - opened.width) / 2}px`;
+            overlay.style.top = `${(mainR.height - opened.height) / 2}px`;
             overlay.style.width = targetW;
             overlay.style.height = targetH;
           });
