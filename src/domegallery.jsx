@@ -121,6 +121,10 @@ export default function DomeGallery({
   const openingRef = useRef(false);
   const openStartedAtRef = useRef(0);
 
+  // Jejak posisi jari beberapa saat terakhir. Dipake buat ngitung kecepatan
+  // lemparan sendiri — lihat alasannya di onDrag.
+  const moveHistRef = useRef([]);
+
   const scrollLockedRef = useRef(false);
 
   const lockScroll = useCallback(() => {
@@ -349,8 +353,9 @@ export default function DomeGallery({
           x: evt.clientX ?? evt.touches?.[0]?.clientX ?? 0,
           y: evt.clientY ?? evt.touches?.[0]?.clientY ?? 0,
         };
+        moveHistRef.current = [];
       },
-      onDrag: ({ event, last, velocity: [vx, vy], direction: [dx, dy], movement }) => {
+      onDrag: ({ event, last, movement }) => {
         if (focusedElRef.current || !draggingRef.current) return;
 
         const evt = event;
@@ -360,6 +365,12 @@ export default function DomeGallery({
 
         const dxTotal = cx - start.x;
         const dyTotal = cy - start.y;
+
+        // Simpen jejak 100ms terakhir. Yang lama dibuang.
+        const now = performance.now();
+        const hist = moveHistRef.current;
+        hist.push({ t: now, x: cx, y: cy });
+        while (hist.length > 2 && now - hist[0].t > 100) hist.shift();
 
         if (!movedRef.current) {
           const dist2 = dxTotal * dxTotal + dyTotal * dyTotal;
@@ -382,7 +393,22 @@ export default function DomeGallery({
         if (last) {
           const combined = Math.abs(movement[0]) + Math.abs(movement[1]);
           if (combined > 6) cancelTapRef.current = true;
-          stopDrag(vx * dx, vy * dy);
+
+          // Kecepatan lemparannya dihitung dari jejak sendiri, bukan dari
+          // `velocity * direction` bawaan use-gesture. Soalnya `velocity`
+          // itu selalu positif dan arahnya diambil dari satu gerakan
+          // terakhir doang — pas jari diangkat sering ada getaran kecil yang
+          // arahnya kebalik, jadi bolanya kelempar ke arah sebaliknya.
+          const first = hist[0];
+          const lastPt = hist[hist.length - 1];
+          const dt = lastPt.t - first.t;
+
+          if (dt > 8) {
+            stopDrag((lastPt.x - first.x) / dt, (lastPt.y - first.y) / dt);
+          } else {
+            stopDrag(0, 0);
+          }
+          moveHistRef.current = [];
         }
       },
     },
