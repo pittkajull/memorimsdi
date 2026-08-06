@@ -234,6 +234,10 @@ export default function DomeGallery({
     ]
   );
 
+  // Ukuran terakhir yang beneran diproses. Dipake buat nyaring perubahan
+  // tinggi yang cuma gara-gara bilah alamat browser — lihat di bawah.
+  const lastSizeRef = useRef({ w: 0, h: 0 });
+
   // Size / radius calculation
   useEffect(() => {
     const root = rootRef.current;
@@ -243,6 +247,29 @@ export default function DomeGallery({
       const cr = entries[0].contentRect;
       const w = Math.max(1, cr.width);
       const h = Math.max(1, cr.height);
+
+      // Di HP, bilah alamat browser nyusut dan melar sendiri pas halaman
+      // discroll. Tingginya doang yang berubah, sekitar 60-100px — tapi itu
+      // udah cukup buat ngebangunin pengamat ini terus-terusan. Tiap bangun,
+      // --radius dihitung ulang, dan gara-gara `.item` punya transition
+      // 300ms, SEMUA kotak ikut animasi bareng. Itu yang keliatan geter-geter
+      // pas ngescroll. Di laptop ga kejadian soalnya bilah alamatnya diem.
+      //
+      // Jadi perubahan tinggi doang yang masih kecil diabaikan. Lebarnya ga
+      // pernah berubah gara-gara bilah alamat, jadi lebar yang dipercaya —
+      // muter HP atau ganti ukuran jendela pasti ngubah lebar juga.
+      const prev = lastSizeRef.current;
+      const sameWidth = Math.abs(w - prev.w) < 1;
+      const heightJitter = Math.abs(h - prev.h) < 120;
+      if (prev.w && sameWidth && heightJitter) return;
+      lastSizeRef.current = { w, h };
+
+      // Kotaknya ga usah dianimasiin pas ukurannya dihitung ulang — itu
+      // perubahan tata letak, bukan gerakan yang perlu diliat. Kecuali lagi
+      // ada foto kebuka, soalnya animasi bukanya emang lagi jalan di situ.
+      const quiet = !focusedElRef.current;
+      if (quiet) root.setAttribute("data-resizing", "true");
+
       const minDim = Math.min(w, h);
       const maxDim = Math.max(w, h);
       const aspect = w / h;
@@ -292,6 +319,14 @@ export default function DomeGallery({
           enlargedEl.style.width = `${rect.width}px`;
           enlargedEl.style.height = `${rect.height}px`;
         }
+      }
+
+      // Transition-nya dinyalain lagi abis browser selesai gambar, jadi
+      // perubahan ukurannya ga keburu ke-animasi.
+      if (quiet) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => root.removeAttribute("data-resizing"));
+        });
       }
     });
 

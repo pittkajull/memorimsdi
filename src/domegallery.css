@@ -85,6 +85,17 @@ main.sphere-main {
   filter: var(--image-filter, none);
 }
 
+/* Pas ukuran bolanya dihitung ulang, kotaknya pindah posisi — dan gara-gara
+   ada transition 300ms di atas, semuanya ikut ke-animasi bareng. Itu kelihatan
+   kaya geter-geter, padahal cuma nyesuain tata letak. Jadi transition-nya
+   dimatiin sebentar selama ngitung. Dipasang di semua turunannya biar kotak
+   yang lagi kena hover pun ikut diem. */
+.sphere-root[data-resizing="true"] .item,
+.sphere-root[data-resizing="true"] .item__image,
+.sphere-root[data-resizing="true"] .sphere {
+  transition: none !important;
+}
+
 .item__image--reference {
   position: absolute;
   inset: 10px;
