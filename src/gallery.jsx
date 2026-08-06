@@ -147,6 +147,16 @@ export default function Gallery() {
       opacity: 0,
       duration: 1.2,
       ease: "power3.out",
+      // Abis animasinya kelar, style yang ditempel GSAP dihapus total.
+      //
+      // Tanpa ini, `transform: scale(1)` sama `opacity: 1` nyangkut selamanya
+      // di pembungkus bola. Kelihatannya ga ngaruh — nilainya kan netral —
+      // tapi buat browser beda: elemen yang punya transform dijadiin lapisan
+      // gambar sendiri, dan seisi bola (80 kotak 3D) ikut kebawa ke dalemnya.
+      // Tiap halaman discroll, lapisan segede itu harus digambar ulang dan ga
+      // pernah keburu — bagian yang belum jadi ditinggal kosong. Itu kotak
+      // hitam yang kedap-kedip pas ngescroll.
+      clearProps: "transform,opacity,willChange",
       scrollTrigger: {
         trigger: domeRef.current,
         start: "top 85%",

@@ -43,9 +43,18 @@ main.sphere-main {
   transform-style: preserve-3d;
 }
 
+/* `.item__image` sengaja GA ikut preserve-3d.
+   Di dalam preserve-3d, tiap anak yang keputer 3D dikasih lapisan GPU sendiri.
+   Waktu `.item__image` ikut, tiap kotak jadi makan dua lapisan — di HP dengan 80
+   kotak itu 160 lapisan, dan jatah memori gambar HP ga nyampe segitu. Pas
+   halaman discroll, browser harus gambar ulang semuanya dan ga keburu — yang
+   belum jadi ditinggal kosong, itu yang keliatan kedap-kedip.
+
+   `.item__image` isinya cuma <img> yang datar, ga ada apa-apa di belakangnya
+   yang perlu kedalaman. Jadi dibiarin gepeng: isinya digabung jadi satu sama
+   `.item`, lapisannya langsung tinggal separuh. */
 .sphere,
-.item,
-.item__image {
+.item {
   transform-style: preserve-3d;
 }
 
@@ -81,7 +90,6 @@ main.sphere-main {
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  backface-visibility: hidden;
   filter: var(--image-filter, none);
 }
 
@@ -94,6 +102,16 @@ main.sphere-main {
 .sphere-root[data-resizing="true"] .item__image,
 .sphere-root[data-resizing="true"] .sphere {
   transition: none !important;
+}
+
+/* Di layar sentuh ga ada hover, jadi transition di kotaknya ga pernah kepakai —
+   yang ada malah tiap kali --radius berubah semua kotak ikut ke-animasi bareng.
+   Dimatiin aja di HP. Yang buka-tutup foto ga lewat sini, jadi ga ngefek. */
+@media (max-width: 767px), (pointer: coarse) {
+  .item,
+  .item__image {
+    transition: none;
+  }
 }
 
 .item__image--reference {
