@@ -54,6 +54,21 @@ const RULES = [
     label: "scrapbook",
     maxWidth: 900,
     webp: { quality: 82, effort: 6 },
+
+    // Foto ini dipakai dua kali dengan ukuran yang jauh beda: sebagai kotak
+    // kecil di globe, dan sebagai foto besar pas kotaknya diklik. Kotaknya
+    // cuma sekitar 75px, tapi kalau yang dipasang file 900px, browser tetap
+    // ngedekode semuanya — sekitar 4 MB di memori PER FOTO, dikali 61 foto.
+    // HP ga punya jatah segitu buat satu tab, jadi gambarnya dibuang lalu
+    // didekode ulang terus-terusan. Itu yang bikin globe-nya nyendat-nyendat.
+    //
+    // Jadi dibikin satu set kecil khusus globe. Yang gede tetap dipakai buat
+    // tampilan besarnya, jadi kualitasnya ga berubah dari sisi yang keliatan.
+    thumb: {
+      dir: "thumb",
+      maxWidth: 220,
+      webp: { quality: 72, effort: 6 },
+    },
   },
 ];
 
@@ -118,9 +133,21 @@ for (const file of files) {
 
   // Struktur foldernya ditiru apa adanya ke public/images/
   const sub = relative(SRC, file);
-  const target = join(OUT, dirname(sub), `${basename(sub, extname(sub))}.webp`);
+  const stem = basename(sub, extname(sub));
+  const target = join(OUT, dirname(sub), `${stem}.webp`);
 
-  if (!FORCE && (await exists(target))) {
+  // Versi kecil ditaro di subfolder sendiri, nama filenya sama persis —
+  // jadi path-nya bisa ditebak dari path aslinya tanpa daftar terpisah.
+  const thumbTarget = rule.thumb
+    ? join(OUT, dirname(sub), rule.thumb.dir, `${stem}.webp`)
+    : null;
+
+  const needMain = FORCE || !(await exists(target));
+  const needThumb = thumbTarget && (FORCE || !(await exists(thumbTarget)));
+
+  // Dicek terpisah: yang gede boleh udah ada sementara yang kecil belum
+  // (misalnya pas aturan thumb-nya baru ditambahin kaya sekarang).
+  if (!needMain && !needThumb) {
     skipped++;
     continue;
   }
@@ -128,20 +155,34 @@ for (const file of files) {
   const srcSize = (await stat(file)).size;
 
   try {
-    await mkdir(dirname(target), { recursive: true });
-    await sharp(file)
-      .rotate() // hormatin EXIF orientation, biar foto HP ga kebalik
-      .resize({ width: rule.maxWidth, withoutEnlargement: true })
-      .webp(rule.webp)
-      .toFile(target);
+    if (needMain) {
+      await mkdir(dirname(target), { recursive: true });
+      await sharp(file)
+        .rotate() // hormatin EXIF orientation, biar foto HP ga kebalik
+        .resize({ width: rule.maxWidth, withoutEnlargement: true })
+        .webp(rule.webp)
+        .toFile(target);
 
-    const outSize = (await stat(target)).size;
-    before += srcSize;
-    after += outSize;
-    done++;
+      const outSize = (await stat(target)).size;
+      before += srcSize;
+      after += outSize;
+      done++;
 
-    const cut = Math.round((1 - outSize / srcSize) * 100);
-    console.log(`  ✓ ${sub}  ${mb(srcSize)} → ${mb(outSize)} MB  (-${cut}%)`);
+      const cut = Math.round((1 - outSize / srcSize) * 100);
+      console.log(`  ✓ ${sub}  ${mb(srcSize)} → ${mb(outSize)} MB  (-${cut}%)`);
+    }
+
+    if (needThumb) {
+      await mkdir(dirname(thumbTarget), { recursive: true });
+      await sharp(file)
+        .rotate()
+        .resize({ width: rule.thumb.maxWidth, withoutEnlargement: true })
+        .webp(rule.thumb.webp)
+        .toFile(thumbTarget);
+
+      done++;
+      console.log(`  ✓ ${relative(OUT, thumbTarget)}  (versi kecil buat globe)`);
+    }
   } catch (err) {
     console.log(`  ! ${sub}  gagal: ${err.message}`);
   }
@@ -150,10 +191,11 @@ for (const file of files) {
 console.log(
   [
     "",
-    done
-      ? `Dibikin : ${done} file — ${mb(before)} MB jadi ${mb(after)} MB (hemat ${Math.round((1 - after / before) * 100)}%)`
-      : "Ga ada file baru.",
-    skipped ? `Dilewat : ${skipped} file (.webp-nya udah ada)` : "",
+    done ? `Dibikin : ${done} file` : "Ga ada file baru.",
+    // Cuma masuk akal dilaporin kalau ada file gede yang dibikin. Kalau yang
+    // dibikin cuma versi kecilnya, ga ada pembanding ukuran aslinya.
+    before ? `Hemat   : ${mb(before)} MB jadi ${mb(after)} MB (${Math.round((1 - after / before) * 100)}%)` : "",
+    skipped ? `Dilewat : ${skipped} file (udah ada)` : "",
     "",
     `Hasilnya di ${OUT}/. Aslinya di ${SRC}/ ga disentuh.`,
     "",

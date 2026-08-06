@@ -36,7 +36,7 @@ function buildItems(pool, seg) {
 
   const totalSlots = coords.length;
   if (pool.length === 0) {
-    return coords.map((c) => ({ ...c, src: "", alt: "" }));
+    return coords.map((c) => ({ ...c, src: "", thumb: "", alt: "" }));
   }
   if (pool.length > totalSlots) {
     console.warn(
@@ -44,9 +44,15 @@ function buildItems(pool, seg) {
     );
   }
 
+  // `thumb` itu versi kecil yang dipasang di kotaknya, `src` yang gede buat
+  // pas fotonya diklik. Yang ga punya versi kecil (misal foto kiriman orang)
+  // ya udah pakai yang gede aja buat dua-duanya.
   const normalizedImages = pool.map((image) => {
-    if (typeof image === "string") return { src: image, alt: "MSDI memory" };
-    return { src: image.src || "", alt: image.alt || "MSDI memory" };
+    if (typeof image === "string") {
+      return { src: image, thumb: image, alt: "MSDI memory" };
+    }
+    const src = image.src || "";
+    return { src, thumb: image.thumb || src, alt: image.alt || "MSDI memory" };
   });
 
   const usedImages = Array.from(
@@ -70,6 +76,7 @@ function buildItems(pool, seg) {
   return coords.map((c, i) => ({
     ...c,
     src: usedImages[i].src,
+    thumb: usedImages[i].thumb,
     alt: usedImages[i].alt,
   }));
 }
@@ -710,15 +717,21 @@ export default function DomeGallery({
                   onPointerUp={onTileActivate}
                   onKeyDown={onTileKeyDown}
                 >
-                  {/* Semua kotak teknisnya ada di dalam layar (cuma diputer
-                      ke belakang bola), jadi loading="lazy" ga ngefek apa-apa.
-                      decoding="async" yang nolongin: browser boleh nunda
-                      ngedekode gambar biar halamannya ga keburu macet. */}
+                  {/* Yang dipasang di sini versi kecilnya. Kotaknya cuma
+                      sekitar 75px, jadi ga ada gunanya masang file 900px —
+                      malah bikin memori HP penuh terus gambarnya dibuang
+                      dan didekode ulang, itu yang bikin nyendat.
+
+                      Yang gede disimpen di data-src di div pembungkusnya,
+                      dipakai pas fotonya diklik.
+
+                      loading="lazy" sengaja ga dipakai: semua kotak teknisnya
+                      ada di dalam layar (cuma diputer ke belakang bola), jadi
+                      ga ngefek apa-apa. decoding="async" yang nolongin. */}
                   <img
-                    src={it.src}
+                    src={it.thumb}
                     draggable={false}
                     alt={it.alt}
-                    loading="lazy"
                     decoding="async"
                     fetchPriority={i < 30 ? "auto" : "low"}
                   />

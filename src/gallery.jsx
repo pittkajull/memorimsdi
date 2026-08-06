@@ -110,9 +110,22 @@ export default function Gallery() {
   // Yang baru dikirim ditaro paling depan biar keliatan duluan. Di HP cukup
   // pasang 40 sumber foto; kartu globe yang tersedia juga lebih sedikit,
   // jadi browser tidak perlu download/decode foto yang tidak akan terlihat.
-  const allPhotos = isMobile
+  const sources = isMobile
     ? [...uploaded, ...photos].slice(0, 40)
     : [...uploaded, ...photos];
+
+  // Tiap foto bawaan punya kembaran kecil di subfolder thumb/ (dibikin sama
+  // `node scripts/optimize-images.mjs`). Yang kecil dipasang di kotak globe,
+  // yang gede baru dimuat pas fotonya diklik.
+  //
+  // Foto kiriman orang ga punya kembaran — file-nya di Vercel Blob, bukan
+  // hasil script ini. Jadi dibiarin string biasa: globe otomatis pakai yang
+  // gede buat dua-duanya.
+  const allPhotos = sources.map((src) =>
+    src.startsWith("/images/fotoenjoy/")
+      ? { src, thumb: src.replace("/fotoenjoy/", "/fotoenjoy/thumb/") }
+      : src
+  );
 
   useGSAP(() => {
     // Title animation
