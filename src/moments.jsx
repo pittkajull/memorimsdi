@@ -28,7 +28,7 @@ const notes = [
   { text: "MSDI has given me so many valuable experiences and lifelong memories. Thank you to everyone who made this journey so meaningful🤍", from: "cece" },
   { text: "some memories stay, dan MSDI salah satunya.", from: "iza" },
   { text: "HAAAH GUYS ILY GUYS, but the worst part about good memories is having to leave them behind #Sedih #AyoMain", from: "bili" },
-  // { text: "Pengen bilang makasih ke semuanya satu-satu.", from: "Selma" },
+  { text: "makasih udah buat 3 bulan ku berkesan kaya beneran berasa di rumah walau di perantauan, pgn lagi hehe", from: "fater" },
   // { text: "Yang penting kita pernah usaha bareng.", from: "Galih" },
   // { text: "Tempat paling rame yang malah bikin tenang.", from: "Dinda" },
   // { text: "Ga banyak kata, cuma makasih banyak.", from: "Rafi" },
