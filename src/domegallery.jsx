@@ -665,7 +665,18 @@ export default function DomeGallery({
                   onPointerUp={onTileActivate}
                   onKeyDown={onTileKeyDown}
                 >
-                  <img src={it.src} draggable={false} alt={it.alt} loading="lazy" />
+                  {/* Semua kotak teknisnya ada di dalam layar (cuma diputer
+                      ke belakang bola), jadi loading="lazy" ga ngefek apa-apa.
+                      decoding="async" yang nolongin: browser boleh nunda
+                      ngedekode gambar biar halamannya ga keburu macet. */}
+                  <img
+                    src={it.src}
+                    draggable={false}
+                    alt={it.alt}
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority={i < 30 ? "auto" : "low"}
+                  />
                 </div>
               </div>
             ))}

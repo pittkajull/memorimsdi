@@ -82,6 +82,18 @@ export default function Gallery() {
   // langsung nampil pake foto bawaan tanpa nungguin jaringan.
   const [uploaded, setUploaded] = useState([]);
 
+  // HP ga sekuat laptop buat ngurus 3D. Dideteksi sekali pas halaman kebuka,
+  // dipake buat ngurangin jumlah kotak dan matiin puteran otomatis.
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px), (pointer: coarse)");
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
   useEffect(() => {
     let alive = true;
     fetch("/api/photos")
@@ -95,8 +107,12 @@ export default function Gallery() {
     };
   }, []);
 
-  // Yang baru dikirim ditaro paling depan biar keliatan duluan.
-  const allPhotos = [...uploaded, ...photos];
+  // Yang baru dikirim ditaro paling depan biar keliatan duluan. Di HP cukup
+  // pasang 40 sumber foto; kartu globe yang tersedia juga lebih sedikit,
+  // jadi browser tidak perlu download/decode foto yang tidak akan terlihat.
+  const allPhotos = isMobile
+    ? [...uploaded, ...photos].slice(0, 40)
+    : [...uploaded, ...photos];
 
   useGSAP(() => {
     // Title animation
@@ -160,9 +176,9 @@ export default function Gallery() {
             fit={0.82}
             fitBasis="width"
             minRadius={620}
-            segments={26}
+            segments={isMobile ? 16 : 26}
             grayscale={false}
-            autoRotate
+            autoRotate={!isMobile}
             autoRotateSpeed={3.5}
             overlayBlurColor="#000000"
             imageBorderRadius="14px"
