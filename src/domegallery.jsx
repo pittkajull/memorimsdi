@@ -167,32 +167,57 @@ export default function DomeGallery({
 
   const startInertia = useCallback(
     (vx, vy) => {
-      const MAX_V = 1.4;
-      let vX = clamp(vx, -MAX_V, MAX_V) * 80;
-      let vY = clamp(vy, -MAX_V, MAX_V) * 80;
-      let frames = 0;
-      const d = clamp(dragDampening ?? 0.6, 0, 1);
-      const frictionMul = 0.94 + 0.055 * d;
-      const stopThreshold = 0.015 - 0.01 * d;
-      const maxFrames = Math.round(90 + 270 * d);
+      // vx/vy satuannya piksel per milidetik — kecepatan jari pas diangkat.
+      //
+      // Diubah ke derajat per detik pakai dragSensitivity yang SAMA kaya
+      // waktu digeser (1px = 1/dragSensitivity derajat). Jadi pas jarinya
+      // diangkat, puterannya nyambung persis sama kecepatan terakhir jari.
+      // Sebelumnya skalanya beda sendiri dan hasilnya cuma sekitar 40% —
+      // makanya tiap kali dilepas berasa ngerem mendadak.
+      const MAX_V = 5; // px/ms. Lemparan paling kenceng pun ga nyampe sini.
+      let degPerSecY = (clamp(vx, -MAX_V, MAX_V) * 1000) / dragSensitivity;
+      let degPerSecX = (clamp(vy, -MAX_V, MAX_V) * 1000) / dragSensitivity;
 
-      const step = () => {
-        vX *= frictionMul;
-        vY *= frictionMul;
-        if (Math.abs(vX) < stopThreshold && Math.abs(vY) < stopThreshold) {
+      const d = clamp(dragDampening ?? 0.6, 0, 1);
+
+      // Gesekan dan jaraknya dihitung per DETIK, bukan per frame. HP layar
+      // 120Hz manggil frame dua kali lebih sering — kalau ngandelin frame,
+      // di HP itu bolanya muter dua kali lebih cepet dan matinya dua kali
+      // lebih cepet juga. Itu yang bikin kelakuannya beda-beda tiap HP.
+      const frictionPerSec = Math.pow(0.94 + 0.055 * d, 60);
+      const stopDegPerSec = 5 - 3 * d;
+      const maxMs = Math.round(1500 + 4500 * d);
+
+      let last = null;
+      let elapsed = 0;
+
+      const step = (t) => {
+        if (last === null) last = t;
+        // Frame yang kelewat lama (pindah tab, HP nge-lag) dipotong, biar
+        // bolanya ga loncat jauh pas balik.
+        const dt = Math.min(t - last, 64) / 1000;
+        last = t;
+        elapsed += dt * 1000;
+
+        const decay = Math.pow(frictionPerSec, dt);
+        degPerSecY *= decay;
+        degPerSecX *= decay;
+
+        const stopped =
+          Math.abs(degPerSecY) < stopDegPerSec &&
+          Math.abs(degPerSecX) < stopDegPerSec;
+
+        if (stopped || elapsed > maxMs) {
           inertiaRAF.current = null;
           return;
         }
-        if (++frames > maxFrames) {
-          inertiaRAF.current = null;
-          return;
-        }
+
         const nextX = clamp(
-          rotationRef.current.x - vY / 200,
+          rotationRef.current.x - degPerSecX * dt,
           -maxVerticalRotationDeg,
           maxVerticalRotationDeg
         );
-        const nextY = wrapAngleSigned(rotationRef.current.y + vX / 200);
+        const nextY = wrapAngleSigned(rotationRef.current.y + degPerSecY * dt);
         rotationRef.current = { x: nextX, y: nextY };
         applyTransform(nextX, nextY);
         inertiaRAF.current = requestAnimationFrame(step);
@@ -200,7 +225,13 @@ export default function DomeGallery({
       stopInertia();
       inertiaRAF.current = requestAnimationFrame(step);
     },
-    [applyTransform, dragDampening, maxVerticalRotationDeg, stopInertia]
+    [
+      applyTransform,
+      dragDampening,
+      dragSensitivity,
+      maxVerticalRotationDeg,
+      stopInertia,
+    ]
   );
 
   // Size / radius calculation
@@ -373,11 +404,11 @@ export default function DomeGallery({
         const dxTotal = cx - start.x;
         const dyTotal = cy - start.y;
 
-        // Simpen jejak 100ms terakhir. Yang lama dibuang.
+        // Simpen jejak 120ms terakhir. Yang lebih lama dibuang.
         const now = performance.now();
         const hist = moveHistRef.current;
         hist.push({ t: now, x: cx, y: cy });
-        while (hist.length > 2 && now - hist[0].t > 100) hist.shift();
+        while (hist.length > 2 && now - hist[0].t > 120) hist.shift();
 
         if (!movedRef.current) {
           const dist2 = dxTotal * dxTotal + dyTotal * dyTotal;
@@ -411,7 +442,22 @@ export default function DomeGallery({
           const dt = lastPt.t - first.t;
 
           if (dt > 8) {
-            stopDrag((lastPt.x - first.x) / dt, (lastPt.y - first.y) / dt);
+            let vX = (lastPt.x - first.x) / dt;
+            let vY = (lastPt.y - first.y) / dt;
+
+            // Jejak 120ms terakhir doang masih bisa ketipu: kalau jarinya
+            // sempet goyang atau ngerem pas diangkat, potongan terakhirnya
+            // bisa kebaca ke arah sebaliknya — bolanya jadi kelempar balik,
+            // padahal dari tadi digeser ke satu arah. Itu yang kerasa mantul.
+            //
+            // Jadi arahnya dicocokin sama arah geseran secara keseluruhan.
+            // Yang ga sepakat dianggep goyangan, bukan lemparan — sumbunya
+            // ga dilempar sama sekali. Jauh lebih enak dilepas diem daripada
+            // muter ke arah yang ga diminta.
+            if (dxTotal !== 0 && Math.sign(vX) !== Math.sign(dxTotal)) vX = 0;
+            if (dyTotal !== 0 && Math.sign(vY) !== Math.sign(dyTotal)) vY = 0;
+
+            stopDrag(vX, vY);
           } else {
             stopDrag(0, 0);
           }
@@ -514,21 +560,33 @@ export default function DomeGallery({
           if (ev.propertyName !== "transform") return;
           overlay.removeEventListener("transitionend", onFirstEnd);
 
-          const prevTransition = overlay.style.transition;
           overlay.style.transition = "none";
           const rect2 = overlay.getBoundingClientRect();
-          overlay.style.transition = prevTransition;
 
           const targetW = openedImageWidth || `${rect2.width}px`;
           const targetH = openedImageHeight || `${rect2.height}px`;
+
+          // Ukuran tujuannya diukur beneran, bukan dibaca dari teksnya.
+          // Nilainya bisa berupa rumus CSS kaya "min(80vw, 520px)" — kalau
+          // dicoba diangkain langsung hasilnya NaN, dan posisi tengahnya
+          // jadi ga kehitung. Itu yang bikin fotonya kebuka melenceng ke
+          // kanan. Jadi ukurannya dipasang dulu sebentar buat diukur,
+          // terus dibalikin lagi.
+          overlay.style.width = targetW;
+          overlay.style.height = targetH;
+          const opened = overlay.getBoundingClientRect();
+          overlay.style.width = `${rect2.width}px`;
+          overlay.style.height = `${rect2.height}px`;
+          void overlay.offsetWidth; // paksa hitung ulang, biar animasinya jalan
+
           const centerX = rect2.left + rect2.width / 2;
           const centerY = rect2.top + rect2.height / 2;
 
           overlay.style.transition = `left ${enlargeTransitionMs}ms ease, top ${enlargeTransitionMs}ms ease, width ${enlargeTransitionMs}ms ease, height ${enlargeTransitionMs}ms ease`;
 
           requestAnimationFrame(() => {
-            overlay.style.left = `${centerX - mainR.left - parseFloat(targetW) / 2}px`;
-            overlay.style.top = `${centerY - mainR.top - parseFloat(targetH) / 2}px`;
+            overlay.style.left = `${centerX - mainR.left - opened.width / 2}px`;
+            overlay.style.top = `${centerY - mainR.top - opened.height / 2}px`;
             overlay.style.width = targetW;
             overlay.style.height = targetH;
           });
