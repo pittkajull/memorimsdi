@@ -1,108 +1,148 @@
 # MEMORI MSDI
 
-A cinematic memorial website dedicated to preserving the precious moments and memories of MSDI. Built with React, Tailwind CSS, and GSAP animations, this website tells the story of a journey through scattered photos, film strips, and heartfelt messages.
+A memorial website built to preserve the moments, laughter, and stories we shared during our time together at MSDI. More than just photos — it's a place to keep the memories that shaped us.
 
-## 🌟 Features
+> *"We came as strangers, but we leave as family."*
 
-- **Hero Section** - Full-screen cinematic intro with parallax scrolling effect
-- **Film Strip Animation** - Infinite scrolling film reels showcasing studio photos with vintage sprocket holes
-- **Photo Gallery** - Masonry-style grid layout with hover effects for 60+ memory photos
-- **Timeline** - Journey timeline from 2023-2025 marking key milestones
-- **Moments Section** - Highlighting teamwork, family bonds, and achievements
-- **Ending Section** - Scattered polaroid photos with paper note and cinematic "THE END" typography
-- **Smooth Animations** - GSAP-powered scroll-triggered animations throughout
+## 💭 What is this?
 
-## 🛠️ Tech Stack
+This is a space for everyone who was part of MSDI to revisit the journey we took together. Every photo, message, and section here tells a piece of our story — from the awkward first days to the moments that became core memories.
 
-- **React** - UI framework (v19)
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework (v4)
-- **GSAP** - Animation library with ScrollTrigger plugin
-- **Framer Motion** - Additional animation capabilities
+The website lets you:
+- **Explore memories** through an interactive 3D photo sphere
+- **Upload your own photos** and add to the shared collection
+- **Read personal messages** from every member of the community
+- **Relive key moments** through studio photos and candid shots
 
-## 📁 Project Structure
+It's not about perfection. It's about remembering what made this time meaningful.
+
+## ✨ What's inside
+
+- **3D Photo Globe** — Spin through 60+ photos in an interactive dome. Click any photo to see it up close. Works on desktop and mobile.
+- **Photo Upload** — Everyone can contribute their own photos to the collection. They'll appear in the globe for everyone to see.
+- **Film Strip Gallery** — Vintage-style scrolling reels with studio photos from our time together.
+- **Personal Notes** — Messages from 30+ members, each one a piece of the story we built together.
+- **Mentor Tributes** — Cards honoring the people who made Malang feel a little more like home.
+- **Video Recap** — The whole year, condensed into one video.
+
+## 🛠 Built with
+
+- **React 19** + **Vite 7** — Fast, modern web app
+- **Tailwind v4** — Clean, responsive styling
+- **GSAP** — Smooth scroll animations throughout
+- **Vercel** — Hosting and serverless backend
+- **Vercel Blob** — Photo storage for user uploads
+
+## 📂 Project structure
 
 ```
 memorimsdi/
 ├── public/
-│   └── images/
-│       ├── fotoenjoy/      # Memory photos (60+ images)
-│       ├── potostudio/     # Studio photos for film strips
-│       └── logomsdi.svg    # MSDI logo
+│   ├── images/
+│   │   ├── fotoenjoy/       # Main photo collection
+│   │   │   └── thumb/       # Optimized thumbnails for mobile
+│   │   ├── potostudio/      # Studio photos for film strips
+│   │   ├── fotokakaks/      # Mentor photos
+│   │   └── fotokartun/      # Cartoon avatars for personal notes
+│   ├── sitemap.xml
+│   └── robots.txt
 ├── src/
-│   ├── hero.jsx           # Hero section with parallax
-│   ├── filmstrip.jsx      # Film strip animation
-│   ├── gallery.jsx        # Photo gallery grid
-│   ├── timeline.jsx       # Journey timeline
-│   ├── moments.jsx        # Teamwork & achievements
-│   ├── ending.jsx         # Scattered photos & END text
-│   ├── footer.jsx         # Footer with quote
-│   ├── main.jsx           # App entry point
-│   └── index.css          # Global styles
-├── index.html
-├── package.json
-├── vite.config.js
-├── tailwind.config.cjs
-└── postcss.config.cjs
+│   ├── hero.jsx            # Landing section
+│   ├── gallery.jsx         # 3D photo dome + upload button
+│   ├── domegallery.jsx     # The interactive sphere logic
+│   ├── filmstrip.jsx       # Scrolling vintage film reels
+│   ├── moments.jsx         # Personal message cards
+│   ├── timeline.jsx        # Mentor tribute cards
+│   ├── video.jsx           # Year recap video embed
+│   ├── ending.jsx          # Closing section
+│   ├── uploadphoto.jsx     # Photo upload modal
+│   ├── adminpage.jsx       # Photo management dashboard
+│   └── particles.jsx       # Background particle effect
+├── api/
+│   ├── upload.js           # Handle photo uploads to Vercel Blob
+│   ├── photos.js           # List all uploaded photos
+│   └── delete.js           # Remove photos (admin only)
+├── scripts/
+│   └── optimize-images.mjs # Generate WebP + thumbnails from originals
+├── admin.html              # Admin dashboard entry
+├── index.html              # Main site entry
+└── CLAUDE.md               # Development workflow rules
 ```
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation
+## 🚀 Running locally
 
 ```bash
-# Clone the repository
+# Clone the repo
 git clone https://github.com/pittkajull/memorimsdi.git
-
-# Navigate to project directory
 cd memorimsdi
 
 # Install dependencies
 npm install
 
-# Start development server
+# Start dev server
 npm run dev
 ```
 
-The website will be available at `http://localhost:5173`
+Visit `http://localhost:5173`
 
-### Build for Production
+### Build for production
 
 ```bash
 npm run build
 ```
 
-Output will be in the `dist/` folder.
+Output goes to `dist/`
 
-## 🎨 Sections Overview
+## 📸 Adding photos
 
-| Section | Description |
-|---------|-------------|
-| **Hero** | Full-screen intro with MEMORI MSDI title and descriptive text |
-| **Film Strip** | Two rows of infinite scrolling photos with vintage film effect |
-| **Gallery** | Masonry grid of 60+ memory photos with hover overlays |
-| **Timeline** | Journey from 2023 (Beginning) → 2024 (Challenges) → 2025 (Achievements) |
-| **Moments** | Cards highlighting Teamwork, Family, and Achievements |
-| **Ending** | Scattered polaroids with "THE END" cinematic typography |
-| **Footer** | Closing quote and MSDI branding |
+### For the main collection
 
-## 📸 Photo Categories
+1. Drop original photos (JPG/PNG) into `_originals/fotoenjoy/`
+2. Run the optimizer:
+   ```bash
+   node scripts/optimize-images.mjs
+   ```
+3. This generates:
+   - `public/images/fotoenjoy/*.webp` — Full-size photos
+   - `public/images/fotoenjoy/thumb/*.webp` — Small versions for the globe tiles
+4. Add the new file paths to `src/gallery.jsx` in the `photos` array
+5. Build and deploy
 
-- **fotoenjoy/** - Candid moments and fun photos from MSDI activities
-- **potostudio/** - Professional studio photos for film strip section
+### Via the website
 
-## 🎬 Animations
+Anyone with the upload code can add photos directly through the **"Add your photo"** button on the site. They'll appear in the globe immediately.
 
-- Parallax scrolling on hero image
-- Infinite horizontal scroll on film strips
-- Fade-in and scale animations on gallery items
-- Scroll-triggered animations on all sections
-- Hover effects with scale and overlay transitions
+## 🎨 Sections
+
+| Section | What it does |
+|---------|--------------|
+| **Hero** | Full-screen intro with parallax scrolling |
+| **Film Strip** | Horizontal scrolling studio photos with vintage sprocket holes |
+| **3D Gallery** | Interactive photo sphere — drag to spin, click to enlarge |
+| **Personal Notes** | Handwritten-style cards with messages from each member |
+| **Mentors** | Thank-you cards for the people who guided us |
+| **Video** | Year recap embedded from YouTube |
+| **Ending** | Closing thoughts and final quote |
+
+## 🔐 Admin dashboard
+
+Visit `/admin` and enter the access code. You can:
+- See all uploaded photos
+- Delete any photo from the collection
+- Refresh the list
+
+Access is restricted — only people with the code can get in.
+
+## 🌍 Live site
+
+**[memorimsdi.my.id](https://memorimsdi.my.id)**
+
+## 🧑‍💻 Development notes
+
+- **Thumbnail strategy:** The globe loads small 220px thumbnails to keep mobile smooth. Full-size images are only loaded when you click a photo.
+- **Mobile optimization:** Fewer tiles on phones (16 vs 26), auto-rotation disabled, particles turned off, and CSS blur effects replaced with gradients.
+- **Drag smoothness:** Inertia physics calculated per-second instead of per-frame so it feels identical on any screen refresh rate.
+- **Upload security:** Photos can only be added to the `/kiriman/` folder. Admin delete endpoint has scope guards to prevent accidental deletion of static assets.
 
 ## 📝 License
 
@@ -110,4 +150,4 @@ Output will be in the `dist/` folder.
 
 ---
 
-*"We came as strangers, but we leave as family."*
+Built with care for the people who made these memories worth keeping.
