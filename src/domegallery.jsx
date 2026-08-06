@@ -282,13 +282,31 @@ export default function DomeGallery({
 
     let raf = null;
     let last = null;
+    let visible = true;
+
+    // Bolanya cuma diputer kalau lagi keliatan. Begitu ke-scroll lewat,
+    // loop-nya berhenti total — jadi section di bawahnya ga rebutan sama
+    // 3D transform yang masih jalan di belakang layar.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (!visible) last = null;
+      },
+      { threshold: 0 }
+    );
+    if (rootRef.current) io.observe(rootRef.current);
 
     const tick = (t) => {
       if (last === null) last = t;
       const dt = Math.min(t - last, 64);
       last = t;
 
-      if (!draggingRef.current && !focusedElRef.current && !inertiaRAF.current) {
+      if (
+        visible &&
+        !draggingRef.current &&
+        !focusedElRef.current &&
+        !inertiaRAF.current
+      ) {
         const nextY = wrapAngleSigned(
           rotationRef.current.y + (autoRotateSpeed * dt) / 1000
         );
@@ -301,6 +319,7 @@ export default function DomeGallery({
 
     raf = requestAnimationFrame(tick);
     return () => {
+      io.disconnect();
       if (raf) cancelAnimationFrame(raf);
     };
   }, [applyTransform, autoRotate, autoRotateSpeed]);

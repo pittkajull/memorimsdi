@@ -201,3 +201,34 @@ body {
   inset: 0;
   will-change: transform;
 }
+
+/* ---------------------------------------------------------------
+   Ringanin di HP
+   --------------------------------------------------------------- */
+
+/* Lingkaran cahaya latar dibikin pakai `blur-3xl` — browser harus
+   ngeburemin area segede 26-32rem, dan ada enam biji nyebar di beberapa
+   section. Di HP itu mahal banget. Diganti radial-gradient yang
+   tampilannya nyaris sama tapi ga butuh proses blur sama sekali. */
+@media (max-width: 767px), (pointer: coarse) {
+  .glow-orb {
+    filter: none !important;
+    background: radial-gradient(
+      circle at center,
+      var(--glow-color, rgba(245, 158, 11, 0.12)) 0%,
+      transparent 70%
+    ) !important;
+  }
+}
+
+/* Yang milih "kurangi animasi" di setelan HP-nya dihormatin. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

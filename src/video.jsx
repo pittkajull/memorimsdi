@@ -38,7 +38,7 @@ export default function Video() {
       <div className="absolute inset-0 opacity-15 pointer-events-none bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]"></div>
 
       {/* Cahaya hangat */}
-      <div className="pointer-events-none absolute left-1/2 top-16 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl"></div>
+      <div className="glow-orb pointer-events-none absolute left-1/2 top-16 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl"></div>
 
       <div className="relative z-10 mx-auto max-w-5xl">
         {/* Header — pola sama kaya section lain: label, Caveat, tebal kapital */}

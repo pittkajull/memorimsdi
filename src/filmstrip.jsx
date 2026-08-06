@@ -120,8 +120,8 @@ export default function Filmstrip() {
       <div className="absolute inset-0 opacity-15 pointer-events-none bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]"></div>
 
       {/* Cahaya hangat */}
-      <div className="pointer-events-none absolute -left-40 top-1/4 h-[28rem] w-[28rem] rounded-full bg-amber-500/10 blur-3xl"></div>
-      <div className="pointer-events-none absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl"></div>
+      <div className="glow-orb pointer-events-none absolute -left-40 top-1/4 h-[28rem] w-[28rem] rounded-full bg-amber-500/10 blur-3xl"></div>
+      <div className="glow-orb pointer-events-none absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl"></div>
 
       {/* Header — overlay biar ga makan tinggi section */}
       <div className="pointer-events-none absolute left-6 top-16 z-20 md:left-12 md:top-20">

@@ -4,6 +4,14 @@ export default function Particles() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Di HP partikelnya dimatiin total. Dia gambar ulang selayar penuh tiap
+    // frame, jalan bareng globe 3D + GSAP — dan cuma hiasan yang nyaris ga
+    // keliatan di layar kecil. Sama buat yang milih "reduce motion".
+    const skip = window.matchMedia(
+      "(max-width: 767px), (pointer: coarse), (prefers-reduced-motion: reduce)"
+    ).matches;
+    if (skip) return;
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     let animationId;
